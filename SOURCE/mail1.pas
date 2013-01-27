@@ -1041,7 +1041,12 @@ begin
               else
                 insert_char(char(c));
          127:delete_char;
+{$IFDEF MSDOS}		 
      32..254:insert_char(char(c));
+{$ENDIF}
+{$IFDEF WIN32}
+     32..46, 48..126, 128..254:insert_char(char(c));
+{$ENDIF}
            8:begin
                 if ccol=1 then begin
                    cursor_left;

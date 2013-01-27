@@ -29,10 +29,26 @@ var
   WindHi : Word;
   WindAttr : Byte;
 
+{$IFDEF MSDOS}
   {$L EXECWIN}
-  procedure SetCsInts; external;
-  procedure NewInt21; external;
+{$ENDIF}
+  procedure SetCsInts; {$IFDEF MSDOS}external;{$ENDIF}
+{$IFDEF WIN32}
+  begin
+    WriteLn('REETODO execbat.SetCsInts');
+	Halt;
+  end;
+{$ENDIF}
+  
+  procedure NewInt21; {$IFDEF MSDOS}external;{$ENDIF}
+{$IFDEF WIN32}
+  begin
+    WriteLn('REETODO execbat.NewInt21');
+	Halt;
+  end;
+{$ENDIF}
 
+{$IFDEF MSDOS}
 procedure ExecWindow(var ok:boolean; const dir,batline:astr; oklevel:integer;
                     var rcode:byte);
 var oldwindowon:boolean;
@@ -123,6 +139,14 @@ var oldwindowon:boolean;
 
     gotoxy(sx,sy);
   end;
+{$ENDIF}
+{$IFDEF WIN32}
+procedure ExecWindow(var ok:boolean; const dir,batline:astr; oklevel:integer;
+                    var rcode:byte);
+begin
+  WriteLn('REETODO execbat ExecWindow'); Halt;
+end;
+{$ENDIF}
 
 procedure execbatch(var ok:boolean;     { result                     }
                     dir:astr;           { directory takes place in   }

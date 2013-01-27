@@ -181,7 +181,12 @@ begin
               level := c;
           end;
       'F':level := 'A';
+{$IFDEF MSDOS}
       'L':level := 'B';
+{$ENDIF}
+{$IFDEF WIN32}
+  // REETODO 'L' is duplicated -- seems like this is the invalid one, but is it?
+{$ENDIF}	
       'M':begin
             prt('Enter startout menu: ');
             inputwn1(general.validation[level].newmenu,8,'U',done);

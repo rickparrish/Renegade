@@ -1,7 +1,7 @@
 {$IFDEF WIN32}
 {$I DEFINES.INC}
 {$ENDIF}
-{ M 65520,0,655360}
+{$IFDEF MSDOS}{ M 65520,0,655360}
 {$M 35500,0,131072}
 (*
   Experimenting with more memory
@@ -10,6 +10,7 @@
                         { Heap is tight, stack is ?? }
 {                             R E N E G A D E                                  }
 {                             ===============                                  }
+{$ENDIF}
 
 { A+,B-,D-,E-,F+,I-,L+,N-,O-,R-,S+,V-}
 {$A+ Align Data for faster execution}
@@ -61,8 +62,10 @@ Uses
 {$O myio      } {$O Menus2    } {$O Menus3    } {$O Menus4    } {$O SysChat   }
 {$O Event     } {$O BBSList   }
 
+{$IFDEF MSDOS}
 Procedure OvrInitXMS; External;
 {$L OVERXMS.OBJ }
+{$ENDIF}
 
 Const
   OvrMaxSize=65536;
@@ -167,7 +170,9 @@ Var
   x:byte;
 
 Begin
+{$IFDEF MSDOS}
   GetIntVec($14,Interrupt14);
+{$ENDIF}  
   filemode:=66;
   exitsave:=exitproc;
   exitproc:=@errorhandle;
@@ -205,6 +210,7 @@ Begin
   read(generalf,general);
   close(generalf);
 
+{$IFDEF MSDOS}
   ovrfilemode:=66;
   ovrinit('RENEGADE.OVR');
   if (ovrresult<>ovrok) then
@@ -230,6 +236,7 @@ Begin
 
   ovrsetbuf(ovrmaxsize);
   ovrsetretry(ovrmaxsize div 3);
+{$ENDIF}
 
   init;
 

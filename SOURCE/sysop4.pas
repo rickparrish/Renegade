@@ -171,7 +171,12 @@ var fil:text;
   end;
 
 begin
+{$IFDEF MSDOS}
   mark(topheap);
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO sysop4 tedit (mark)'); Halt;
+{$ENDIF}
   used:=nil; top:=nil; bottom:=nil;
   allread:=TRUE;
   fsplit(fspec,ps1,ps2,ps3);
@@ -297,7 +302,12 @@ begin
           'C':if pynq('Clear workspace? ') then begin
                 tline:=0; curline:=1;
                 cur:=nil; top:=nil; bottom:=nil;
+{$IFDEF MSDOS}
                 release(topheap);
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO sysop4 tedit (release 1)'); Halt;
+{$ENDIF}
               end;
           'D':begin
                 c1:=value(copy(i1,2,9));
@@ -412,7 +422,12 @@ begin
       until ((done) or (hangup));
     end;
   end;
+{$IFDEF MSDOS}
   release(topheap);
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO sysop4 tedit (release 2)'); Halt;
+{$ENDIF}
   printingfile:=FALSE;
   Lasterror := IOResult;
 end;

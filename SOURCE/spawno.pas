@@ -42,13 +42,26 @@ function SPAWN(progname : string ; arguments : string ; envseg : integer) : inte
 
 implementation
 
+{$IFDEF MSDOS}
 {$L SPAWNTP.OBJ}
+{$ENDIF}
+
 procedure init_SPAWNO(swap_dirs : string ; swap_types : integer ;
 		      min_res : integer ; res_stack : integer) ;
-	external ;
+	{$IFDEF MSDOS}external ;{$ENDIF}
+{$IFDEF WIN32}
+begin
+  WriteLn('REETODO spawno init_SPAWNO'); Halt;
+end;
+{$ENDIF}
 
 function SPAWN(progname : string ; arguments : string ; envseg : integer) : integer ;
-	external ;
+	{$IFDEF MSDOS}external ;{$ENDIF}
+{$IFDEF WIN32}
+begin
+  WriteLn('REETODO spawno SPAWN'); Halt;
+end;
+{$ENDIF}
 
 end.
 

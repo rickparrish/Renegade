@@ -141,7 +141,12 @@ begin
                 5:General.SwapTo := 255;
               end;
             end;
+{$IFDEF MSDOS}			
         'A'..'P','R'..'U':
+{$ENDIF}
+{$IFDEF WIN32}
+        'A'..'G','I'..'P','R'..'U':
+{$ENDIF}
           begin
             prt('Range ');
             case c of

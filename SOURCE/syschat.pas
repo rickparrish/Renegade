@@ -59,6 +59,7 @@ begin
           if (shutupchatcall) then delay(600)
           else
             begin
+{$IFDEF MSDOS}	
               For i := 300 downto 2 Do
                 Begin
                   Delay(1);
@@ -69,8 +70,14 @@ begin
                   Delay(1);
                   Sound(i * 10);
                 End;
+              nosound;
+{$ENDIF}
+{$IFDEF WIN32}
+              sound(3000, 200);
+			  sound(1000, 200);
+			  sound(3000, 200);
+{$ENDIF}
             end;
-          nosound;
           if (keypressed) then begin
             r:=readkey;
             case r of
@@ -208,6 +215,7 @@ begin
     end
     else if (xx='/CLS') then cls
     else if (xx='/PAGE') then begin
+{$IFDEF MSDOS}
       for i:=650 to 700 do begin
         sound(i); delay(4);
         nosound;
@@ -216,6 +224,15 @@ begin
         dec(i); sound(i); delay(2);
         nosound;
       until (i=200);
+{$ENDIF}
+{$IFDEF WIN32}
+      sound(650, 200);
+	  sound(700, 200);
+	  sound(600, 200);
+	  sound(500, 200);
+	  sound(400, 200);
+	  sound(300, 200);
+{$ENDIF}	 
       prompt(^G^G);
     end
 

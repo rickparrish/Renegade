@@ -19,12 +19,23 @@ function sysopavailable:boolean;
 
 implementation
 
+{$IFDEF WIN32}
+uses Windows;
+{$ENDIF}
 function sysopavailable:boolean;
 var
+{$IFDEF MSDOS}
   a:byte absolute $0000:$0417;
+{$ENDIF}
   i:integer;
 begin
+{$IFDEF MSDOS}
   sysopavailable:=((a and 16)=0);
+{$ENDIF}
+{$IFDEF WIN32}
+  // Availability is togged with scroll lock key
+  sysopavailable := (GetKeyState($91) and $ffff) <> 0;
+{$ENDIF}  
 
   if (not intime(timer,general.lowtime,general.hitime)) then
     sysopavailable:=FALSE;

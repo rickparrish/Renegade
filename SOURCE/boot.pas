@@ -459,18 +459,28 @@ end;
 
 Function ShareLoaded:boolean;
 begin
+{$IFDEF MSDOS}
   Regs.ah := $10;
   Regs.al := $0;
   intr($2F,Regs);
   ShareLoaded := (Regs.al = $FF);
+{$ENDIF}
+{$IFDEF WIN32}
+  ShareLoaded := true;
+{$ENDIF}  
 end;
 
 Function MSCDExLoaded:boolean;
 begin
+{$IFDEF MSDOS}
   Regs.AX := $1500;
   Regs.BX := 0;
   intr($2F, Regs);
   MSCDExLoaded := (Regs.BX <> 0);
+{$ENDIF}
+{$IFDEF WIN32}
+  MSCDExLoaded := true;
+{$ENDIF} 
 end;
 
 procedure init;
@@ -482,6 +492,7 @@ begin
     writeln('Please set the date & time.');
     halt(exiterrors);
   end;
+{$IFDEF MSDOS}  
   regs.AX := $2B01;
   regs.CX := $4445;  { DE }
   regs.DX := $5351;  { SQ }
@@ -493,7 +504,7 @@ begin
       regs.AX := $1600;
       Intr($2F,regs);
       if not (regs.AL in [$00,$01,$80,$FF]) then
-        Tasker := Windows
+        Tasker := MSWindows
       else
         begin
           regs.AX := $3001;
@@ -502,6 +513,10 @@ begin
             Tasker := OS2;
         end;
     end;
+{$ENDIF}
+{$IFDEF WIN32}
+  Tasker := MSWindows;
+{$ENDIF}
   if general.multinode and not shareloaded then
     begin
       clrscr;
@@ -560,6 +575,7 @@ begin
 
   savenode(node);
 
+{$IFDEF MSDOS}
   regs.AX := $2B01;
   regs.CX := $4445;  { DE }
   regs.DX := $5351;  { SQ }
@@ -571,7 +587,7 @@ begin
       regs.AX := $1600;
       Intr($2F,regs);
       if not (regs.AL in [$00,$01,$80,$FF]) then
-        Tasker := Windows
+        Tasker := MSWindows
       else
         begin
           regs.AX := $3001;
@@ -580,6 +596,10 @@ begin
             Tasker := OS2;
         end;
     end;
+{$ENDIF}
+{$IFDEF WIN32}
+  Tasker := MSWindows;
+{$ENDIF}
 end;
 
 end.

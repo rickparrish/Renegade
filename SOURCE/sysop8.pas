@@ -476,8 +476,13 @@ var f1:file;
                   end;
               'R':if (mbrealname in mbstat) then mbstat:=mbstat-[mbrealname]
                       else mbstat:=mbstat+[mbrealname];
+{$IFDEF MSDOS}
               'P':if (mbprivate in mbstat) then mbstat:=mbstat-[mbprivate]
                       else mbstat:=mbstat+[mbprivate];
+{$ENDIF}					  
+{$IFDEF WIN32}
+  // REETODO This 'P' and possibly others appear to be bad copypasta from the 'T' case above
+{$ENDIF}
               'U':if (mbunhidden in mbstat) then mbstat:=mbstat-[mbunhidden]
                       else mbstat:=mbstat+[mbunhidden];
               'A':if (mbfilter in mbstat) then mbstat:=mbstat-[mbfilter]

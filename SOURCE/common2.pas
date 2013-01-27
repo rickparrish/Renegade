@@ -20,7 +20,7 @@ procedure ToggleWindow(ShowIt:boolean);
 
 implementation
 
-uses common1, common3, timefunc, syschat;
+uses common1, common3, timefunc, syschat {$IFDEF WIN32}, VPSysLow, Windows{$ENDIF};
 
 const
   SYSKEY_LENGTH=1269;
@@ -138,6 +138,7 @@ const
     'v','e','r','l','a','y','s',':',#25,#7 ,#24);
 
 
+{$IFDEF MSDOS}
 procedure BiosScroll(up:boolean); assembler;
 asm
   mov cx, 0
@@ -154,6 +155,19 @@ asm
   @go:
   int 10h
 end;
+{$ENDIF}
+{$IFDEF WIN32}
+procedure BiosScroll(up:boolean);
+begin
+  if (up) then
+  begin
+    SysScrollUp(0, 0, MaxDisplayCols-1, MaxDisplayRows-1, 2, 7);
+  end else
+  begin
+    SysScrollDn(0, 0, MaxDisplayCols-1, MaxDisplayRows-1, 2, 7);
+  end;
+end;
+{$ENDIF}
 
 procedure cpr(c1,c2:byte);
 var
@@ -265,10 +279,15 @@ begin
 
   case WhichScreen of
     1:with Thisuser do begin
+{$IFDEF MSDOS}
         if mem[$0000:$0449]=7 then
           Update_logo(Win1,MScreenAddr[(FirstRow - 1) * 160],WIN1_LENGTH)
         else
           Update_logo(Win1,ScreenAddr[(FirstRow - 1) * 160],WIN1_LENGTH);
+{$ENDIF}		
+{$IFDEF WIN32}
+        Update_logo(Win1, 1, FirstRow, WIN1_LENGTH);
+{$ENDIF}
 
         gotoxy(02, FirstRow); write(caps(Name));
         gotoxy(33, FirstRow);
@@ -309,10 +328,15 @@ begin
         gotoxy(75, SecondRow); write(Node);
       end;
     2:with Thisuser do begin
+{$IFDEF MSDOS}
         if mem[$0000:$0449]=7 then
           Update_logo(Win2,MScreenAddr[(FirstRow - 1) * 160],WIN2_LENGTH)
         else
           Update_logo(Win2,ScreenAddr[(FirstRow - 1) * 160],WIN2_LENGTH);
+{$ENDIF}		
+{$IFDEF WIN32}
+        Update_logo(Win2, 1, FirstRow, WIN2_LENGTH);
+{$ENDIF}
 
         gotoxy(02, FirstRow); write(Street);
         gotoxy(33, FirstRow); write(Ph);
@@ -341,10 +365,15 @@ begin
           write('Regular');
       end;
     3:with Thisuser do begin
+{$IFDEF MSDOS}
         if mem[$0000:$0449]=7 then
           Update_logo(Win3,MScreenAddr[(FirstRow - 1) * 160],WIN3_LENGTH)
         else
           Update_logo(Win3,ScreenAddr[(FirstRow - 1) * 160],WIN3_LENGTH);
+{$ENDIF}		
+{$IFDEF WIN32}
+        Update_logo(Win3, 1, FirstRow, WIN3_LENGTH);
+{$ENDIF}
 
         gotoxy(06, FirstRow); write(Loggedon);
         gotoxy(16, FirstRow); write(OnToday);
@@ -384,10 +413,15 @@ begin
           end;
         close(hf);
         with TodayHistory do begin
+{$IFDEF MSDOS}
           if mem[$0000:$0449]=7 then
             Update_logo(Win4,MScreenAddr[(FirstRow - 1) * 160],WIN4_LENGTH)
           else
             Update_logo(Win4,ScreenAddr[(FirstRow - 1) * 160],WIN4_LENGTH);
+{$ENDIF}		
+{$IFDEF WIN32}
+          Update_logo(Win4, 1, FirstRow, WIN4_LENGTH);
+{$ENDIF}
 
           gotoxy(20, FirstRow); write(Callers);
           gotoxy(34, FirstRow); write(Email);
@@ -403,10 +437,15 @@ begin
         end;
       end;
     5:with TodayHistory do begin
+{$IFDEF MSDOS}
         if mem[$0000:$0449]=7 then
           Update_logo(Win5,MScreenAddr[(FirstRow - 1) * 160],WIN5_LENGTH)
         else
           Update_logo(Win5,ScreenAddr[(FirstRow - 1) * 160],WIN5_LENGTH);
+{$ENDIF}		
+{$IFDEF WIN32}
+        Update_logo(Win5, 1, FirstRow, WIN5_LENGTH);
+{$ENDIF}
 
         gotoxy(20, FirstRow); write(general.callernum);
         gotoxy(31, FirstRow); write(general.totaldloads + downloads);
@@ -472,6 +511,7 @@ end;
 
 procedure initport;
 
+{$IFDEF MSDOS}
   function driverinstalled:word; assembler;
   asm
     mov ah, 5
@@ -482,6 +522,13 @@ procedure initport;
     pushf
     call interrupt14
   end;
+{$ENDIF}
+{$IFDEF WIN32}
+  function driverinstalled:word;
+  begin
+    driverinstalled := $1954; // Seems to be the magic number it wants
+  end;
+{$ENDIF}  
 
 begin
   FossilPort := liner.comport - 1;
@@ -489,6 +536,7 @@ begin
 
   if (DigiBoard in liner.mflags) then
     begin
+{$IFDEF MSDOS}
       regs.ah := $1E;
       regs.dx := FossilPort;
       if (xonxoff in liner.mflags) then
@@ -500,6 +548,10 @@ begin
       regs.dx := FossilPort;
       regs.al := 0;
       intr($14, regs);
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO common2 initport (digiboard)'); Halt;
+{$ENDIF}
     end
   else
     if (driverinstalled <> $1954) then
@@ -509,6 +561,7 @@ begin
         halt;
       end
     else
+{$IFDEF MSDOS}
       asm
         xor al, al
         mov bl, liner.mflags
@@ -525,6 +578,10 @@ begin
         pushf
         call interrupt14
       end;
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO common2 initport (fossil)'); Halt;
+{$ENDIF}
   com_set_speed(Liner.InitBaud);
 end;
 
@@ -580,10 +637,15 @@ begin
     case ord(c) of
     119:begin                                              { CTRL-HOME     }
               savescreen(wind);
+{$IFDEF MSDOS}
               if mem[$0000:$0449]=7 then
                 Update_logo(SYSKEY,MScreenAddr[0],SYSKEY_LENGTH)
               else
                 Update_logo(SYSKEY,ScreenAddr[0],SYSKEY_LENGTH);
+{$ENDIF}		
+{$IFDEF WIN32}
+              Update_logo(SYSKEY, 1, 1, SYSKEY_LENGTH);
+{$ENDIF}
               cursoron(FALSE);
               c:=readkey;
               if (c = #0) then
@@ -794,7 +856,12 @@ begin
           repeat
             outkey(^G);
             delay(500);
+{$IFDEF MSDOS}			
             asm int 28h end;
+{$ENDIF}
+{$IFDEF WIN32}
+            Sleep(1);
+{$ENDIF} 
             checkhangup;
           until ((not empty) or (hangup));
           update_screen;

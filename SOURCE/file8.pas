@@ -20,6 +20,7 @@ uses file0, file2, file6, file12, execbat;
 procedure abeep;
 var a,b,c,i,j:integer;
 begin
+{$IFDEF MSDOS}
   for j:=1 to 3 do begin
     for i:=1 to 3 do begin
       a:=i*500;
@@ -37,6 +38,12 @@ begin
     delay(50);
     nosound;
   end;
+{$ENDIF}
+{$IFDEF WIN32}
+  sound(1500, 266);
+  sound(2000, 266);
+  sound(2500, 266);
+{$ENDIF} 
 end;
 
 function CheckFileRatio(q:longint):integer;

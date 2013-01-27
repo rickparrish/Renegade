@@ -30,9 +30,16 @@ const
 
 var
   wind:windowrec;
+{$IFDEF MSDOS}
   MonitorType:byte absolute $0000:$0449;
+{$ENDIF}
+{$IFDEF WIN32}
+  MonitorType:byte = CO80;
+{$ENDIF}
+{$IFDEF MSDOS}
   ScreenAddr : ScreenType absolute $B800:$0000;
   MScreenAddr : ScreenType absolute $B000:$0000;
+{$ENDIF}
   ScreenSize:integer;
   MaxDisplayRows,
   MaxDisplayCols:byte;
@@ -48,7 +55,12 @@ var
   infield_arrow_exit_types:string;
   infield_normal_exit_keys:string;
 
+{$IFDEF MSDOS}
 procedure update_logo(var Addr1,Addr2; BlkLen:Integer);
+{$ENDIF}
+{$IFDEF WIN32}
+procedure update_logo(data: array of char; originx, originy, datalength: integer);
+{$ENDIF}
 procedure cursoron(b:boolean);
 procedure infield1(x,y:byte; var s:astr; len:byte);
 procedure infielde(var s:astr; len:byte);
@@ -66,6 +78,11 @@ procedure removewindow(var wind:windowrec);
 
 implementation
 
+{$IFDEF WIN32}
+uses VPSysLow, VPUtils;
+{$ENDIF}
+
+{$IFDEF MSDOS}
 procedure cursoron(b:boolean); assembler;
 asm
   cmp b, 1
@@ -80,6 +97,19 @@ asm
   mov ah,1
   int 10h
 end;
+{$ENDIF}
+{$IFDEF WIN32}
+procedure cursoron(b:boolean);
+begin
+  if (b) then
+  begin
+    ShowCursor;
+  end else
+  begin
+    HideCursor;
+  end;
+end;
+{$ENDIF}
 
 procedure infield1(x,y:byte; var s:astr; len:byte);
 var os:astr;
@@ -402,10 +432,15 @@ end;
 
 procedure savescreen(var wind:windowrec);
 begin
+{$IFDEF MSDOS}
   if (MonitorType = 7) then
     move(MScreenAddr[0],Wind[0],ScreenSize)
   else
     move(ScreenAddr[0],Wind[0],ScreenSize);
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO myio savescreen'); Halt;
+{$ENDIF}
 end;
 
 procedure setwindow(var wind:windowrec; TLX,TLY,BRX,BRY,tcolr,bcolr,boxtype:integer);
@@ -420,12 +455,18 @@ end;
 
 procedure removewindow(var wind:windowrec);
 begin
+{$IFDEF MSDOS}
   if (MonitorType = 7) then
     move(Wind[0],MScreenAddr[0],ScreenSize)
   else
     move(Wind[0],ScreenAddr[0],ScreenSize);
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO myio removewindow'); Halt;
+{$ENDIF}
 end;
 
+{$IFDEF MSDOS}
 procedure update_logo(var Addr1,Addr2; BlkLen:Integer);
 begin
   inline (
@@ -483,5 +524,60 @@ begin
     $E0/$AA/
     $1F);
 end;
+{$ENDIF}
+{$IFDEF WIN32}
+procedure update_logo(data: array of char; originx, originy, datalength: integer);
+var 
+  i, x, y, count, counter: Integer;
+  character: Char;
+  spaces: String;
+begin
+  i := 0;
+  x := originx;
+  y := originy;
+  spaces := '                                                                                '; // 80 spaces
+  
+  while (i < datalength) do
+  begin
+    case data[i] of
+	  #0..#15: begin
+	             TextColor(Ord(data[i]));
+	           end;
+	  #16..#23: begin
+	              TextBackground(Ord(data[i]) - 16);
+				end;
+	  #24: begin
+	         x := originx;
+			 Inc(y);
+		   end;
+	  #25: begin
+	         Inc(i);
+			 count := Ord(data[i])+1;
+			 SysWrtCharStrAtt(@spaces[1], count, x-1, y-1, TextAttr);
+			 Inc(x, count);
+	       end;
+	  #26: begin
+	         Inc(i);
+			 count := Ord(data[i])+1;
+			 Inc(i);
+			 character := data[i];
+			 for counter := 1 to count do
+			 begin
+			   SysWrtCharStrAtt(@data[i], 1, x-1, y-1, TextAttr);
+			   Inc(x);
+			 end;
+	       end;
+	  #27: begin
+	         TextAttr := TextAttr XOR $80; // Invert blink flag
+	       end;
+	  #32..#255: begin
+	               SysWrtCharStrAtt(@data[i], 1, x-1, y-1, TextAttr);
+				   Inc(x);
+	             end;
+    end;
+	Inc(i);
+  end;
+end;
+{$ENDIF}
 
 end.

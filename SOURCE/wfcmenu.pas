@@ -22,7 +22,7 @@ uses boot,  sysop1, sysop2, sysop3, sysop4, User,
      arcview, file0, file1, file2, file5, file6, file8,
      file9, file10, file11, file13, archive1, archive2,
      Bulletin, cuser, doors, menus2, msgpack,
-     multnode, Maint;
+     multnode, Maint {$IFDEF WIN32}, Windows{$ENDIF};
 
 var
   LastKeyPress:longint;
@@ -364,10 +364,15 @@ begin
   if (Liner.Answer <> '') then
     OutModemString(Liner.Answer);
   if (SysOpOn) then
+{$IFDEF MSDOS}
     if (MonitorType = 7) then
       Update_logo(ANSWER,MScreenAddr[(3*2)+(19*160)-162],ANSWER_LENGTH)
      else
        Update_logo(ANSWER,ScreenAddr[(3*2)+(19*160)-162],ANSWER_LENGTH);
+{$ENDIF}		
+{$IFDEF WIN32}
+    Update_logo(ANSWER, 3, 19, ANSWER_LENGTH);
+{$ENDIF}
   rl1:=Timer; s:=''; rl:=0;
   repeat
     Done := FALSE;
@@ -450,16 +455,26 @@ begin
 
   if (not BlankMenuNow) and SysOpOn then begin
     if (SysOpOn) then begin
+{$IFDEF MSDOS}
       if (MonitorType = 7) then
         Update_logo(WFC,MScreenAddr[0],WFC_LENGTH)
       else
         Update_logo(WFC,ScreenAddr[0],WFC_LENGTH);
+{$ENDIF}		
+{$IFDEF WIN32}
+      Update_logo(WFC, 1, 1, WFC_LENGTH);
+{$ENDIF}
 
       if general.networkmode then
+{$IFDEF MSDOS}
         if (MonitorType = 7) then
           Update_logo(WFCNET,MScreenAddr[(3*2)+(19*160)-162],WFCNET_LENGTH)
         else
           Update_logo(WFCNET,ScreenAddr[(3*2)+(19*160)-162],WFCNET_LENGTH);
+{$ENDIF}		
+{$IFDEF WIN32}
+        Update_logo(WFCNET, 3, 19, WFCNET_LENGTH);
+{$ENDIF}
 
       loadurec(thisuser, 1);
       textattr := 31;
@@ -546,7 +561,7 @@ begin
         case Tasker of
           None:write('  DOS');
           DesqView:write('   DV');
-          Windows:write('  Win');
+          MSWindows:write('  Win');
           OS2:write(' OS/2');
         end;
 
@@ -566,10 +581,15 @@ begin
         textattr := 7;
       end;
     end else
+{$IFDEF MSDOS}
       if (MonitorType = 7) then
          Update_logo(WFC0,MScreenAddr[0],WFC0_LENGTH)
       else
          Update_logo(WFC0,ScreenAddr[0],WFC0_LENGTH);
+{$ENDIF}		
+{$IFDEF WIN32}
+      Update_logo(WFC0, 1, 1, WFC0_LENGTH);
+{$ENDIF}
   end;
 end;
 
@@ -684,10 +704,15 @@ var
     beepend:=FALSE;
     rl:=Timer;
     repeat
+{$IFDEF MSDOS}
       sound(1500); delay(20);
       sound(1000); delay(20);
       sound(800); delay(20);
       nosound;
+{$ENDIF}
+{$IFDEF WIN32}
+      sound(1000, 60);
+{$ENDIF}
       rl1:=Timer;
       while (abs(rl1-Timer)<0.9) and (not keypressed) do;
     until (abs(rl-Timer)>30) or (keypressed);
@@ -834,7 +859,12 @@ begin
     hangup:=FALSE; hungup:=FALSE; irt:=''; lastauthor:=0; cfo:=FALSE;
     Speed := 0; freetime:=0; extratime:=0; choptime:=0; credittime := 0; lil:=0;
 
+{$IFDEF MSDOS}
     asm int 28h end;
+{$ENDIF}
+{$IFDEF WIN32}
+    Sleep(1);
+{$ENDIF}  
 
     if (AnswerBaud = 0) then begin
       if (Timer - LastMinute > 60) or (Timer - LastMinute < 0) then begin

@@ -374,8 +374,13 @@ begin
       if ((usernum>=1) and (usernum<=maxusers-1)) then
         saveurec(thisuser,usernum);
 
+{$IFDEF MSDOS}
       for i:=1 to hiubatchv do
         release(ubatchv[i]); {* release dynamic memory *}
+{$ENDIF}
+{$IFDEF WIN32}
+  WriteLn('REETODO maint LogoffMaint'); Halt;
+{$ENDIF}
 
       if (hungup) then sl1('^7-= Hung Up =-');
       sl1('^4Read: ^3'+cstr(mread)+'^4 / Time on: ^3'+cstr(tt));
