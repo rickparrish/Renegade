@@ -198,6 +198,7 @@ var os:string;
       inc(cp);
     end;
 
+{$IFDEF MSDOS}
     procedure setcursor(InsertMode:boolean);assembler;
     asm
       cmp InsertMode, 0
@@ -212,6 +213,13 @@ var os:string;
       mov ah,1
       int 10h
     end;
+{$ENDIF}
+{$IFDEF WIN32}
+    procedure setcursor(InsertMode:boolean);
+    begin
+	  WriteLn('REETODO common3 setcursor'); Halt;
+	end;
+{$ENDIF}
 
 begin
   flags := allcaps(flags);

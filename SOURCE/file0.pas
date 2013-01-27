@@ -399,9 +399,16 @@ begin
           st := timer;
         end
       else
+{$IFDEF MSDOS}
         asm
           int 28h
         end;
+{$ENDIF}
+{$IFDEF WIN32}
+        begin
+		  WriteLn('REETODO file0 countdown'); Halt;
+		end;
+{$ENDIF}
     end;
   if (c <> #27) then
     begin

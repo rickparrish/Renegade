@@ -9,6 +9,7 @@ interface
 
 implementation
 
+{$IFDEF MSDOS}
 function a286or_better:boolean; assembler;
 asm
   pushf
@@ -25,6 +26,14 @@ asm
   mov   ax,1
   @@1:
 end;
+{$ENDIF}
+{$IFDEF WIN32}
+function a286or_better:boolean;
+begin
+  // I think this is a safe assumption
+  a286or_better := true;
+end;
+{$ENDIF}
 
 begin
   if not a286or_better then begin

@@ -39,10 +39,17 @@ begin
       repeat
         reset(filv);
         i := ioresult;
+{$IFDEF MSDOS}
         asm
           int 28h
           int 28h
         end;
+{$ENDIF}
+{$IFDEF WIN32}
+        begin
+		  WriteLn('REETODO menus2 readin'); Halt;
+		end;
+{$ENDIF}
       until (i = 0) or (LastTime < Timer);
     end
   else

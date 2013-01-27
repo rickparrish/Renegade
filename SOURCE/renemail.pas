@@ -167,6 +167,7 @@ begin
   existdir:=(doserror=0) and (dirinfo.attr and $10=$10);
 end;
 
+{$IFDEF MSDOS}
 function StrPas(Str: String): String; assembler;
 asm
 	PUSH	DS
@@ -184,6 +185,13 @@ asm
 	REP	MOVSB
 	POP	DS
 end;
+{$ENDIF}
+{$IFDEF WIN32}
+function StrPas(Str: String): String;
+begin
+  WriteLn('REETODO renemail StrPas'); Halt;
+end;
+{$ENDIF}
 
 function stripname(s:astr):astr;
 var
