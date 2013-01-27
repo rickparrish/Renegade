@@ -1,16 +1,16 @@
 Renegade
 ========
 
-[=========================]
-[== Renegade BBS vY2Ka2 ==]
-[=========================]
-[ (c)2000, Jeff Herrings  ]
-[                         ]
-[ "HotFix" update to      ]
-[ resolve RENEGADE's Y2K  ]
-[ compliancy issues.      ]
-[                         ]
-[=========================]
+[=========================]<br />
+[== Renegade BBS vY2Ka2 ==]<br />
+[=========================]<br />
+[ (c)2000, Jeff Herrings  ]<br />
+[                         ]<br />
+[ "HotFix" update to      ]<br />
+[ resolve RENEGADE's Y2K  ]<br />
+[ compliancy issues.      ]<br />
+[                         ]<br />
+[=========================]<br />
 
 ==============================
 Copyright Cott Lang, Patrick Spence, Gary Hall and Jeff Herrings<br />
