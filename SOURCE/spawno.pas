@@ -1,3 +1,6 @@
+{$IFDEF WIN32}
+{$I DEFINES.INC}
+{$ENDIF}
 {============================================================================}
 { (c) Copyright 1991 Ralf Brown    All Rights Reserved			     }
 { This file is part of the SPAWNO package and may be redistributed as a part }

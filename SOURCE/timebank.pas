@@ -1,3 +1,6 @@
+{$IFDEF WIN32}
+{$I DEFINES.INC}
+{$ENDIF}
 {$A+,B-,D-,E-,F+,I-,L-,N-,O+,R-,S+,V-}
 
 { Various miscellaneous functions used by the BBS. }

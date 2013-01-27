@@ -1,3 +1,6 @@
+{$IFDEF WIN32}
+{$I DEFINES.INC}
+{$ENDIF}
 PROGRAM Renemail;       {eatus echomailius}
 
 {$A+,I-,E-,F+}
