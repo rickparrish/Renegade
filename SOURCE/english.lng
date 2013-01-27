@@ -1,0 +1,47 @@
+; Renegade BBS Language Text    [ENGLISH.LNG]
+; (C) 2000 Jeff Herrings, All Rights Reserved
+; 
+;   This is the beginning of what will become Renegade's
+; heart and soul of its customizable features.  This is
+; due in part to the huge demand of making Renegade
+; more customized to the SysOp's liking.  Not to mention
+; its a must to keep Renegade in the fore-fronts of
+; competition. :>
+;
+; Any thing with a preceeding semi-colon is a REMARK!
+; Please refer to the short documentation regarding the
+; language templates (LANGS.DOC)
+;
+; This WILL be implemented in the next version!  I have
+; included this file to allow the SysOp (some) time before
+; a sudden change is made.  Please become familiar with this
+; and the short documentation regarding language files so
+; that you will become better prepared for when it -is-
+; implemented.
+;
+;
+;
+; 001  [= Anonymous =]
+|09[= |10Anonymous |09]
+; 002  Logon Note #1
+|09Please enter your username and password below.
+; 003  Logon Note #2
+|09Enter |15NEW |09if you're a new user
+; 004  Logon Prompt
+|09Username|13: |14
+; 005  Echo Character
+%
+; 006  Your password
+|09Your password|13: |14
+; 007  Your phone #
+|09Last 4 digits of phone #|13: |14%PN{8
+
+
+
+
+
+
+
+
+
+

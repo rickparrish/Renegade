@@ -1,0 +1,6 @@
+rg_idx.pas Index code
+rg_mbase.pas Message base code
+rg_mcfg.pas Message Base config code
+rg_mkm.pas Msg access code
+rg_off.pas Offline mail code
+rg_scan.pas Scan Pointer code

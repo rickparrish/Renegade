@@ -1,0 +1,122 @@
+[========================================================]
+[=========== Renegade Bulletin Board System =============]
+[========================================================]
+[====== (C) 2000 Jeff Herrings, All Rights Reserved =====]
+[========================================================]
+[===== LANGS.DOC - Short Language templates doc's  ======]
+[========================================================]
+
+[Introduction]
+
+  Hello.  Well the time has come that Renegade become a
+bit more customizable than it has been in the past.  There
+are numerous reasons why, though the best one is that it
+allows the SysOp to customize his/her BBS to his/her
+liking.
+
+  The concept behind it all is actually -very- simple,
+though I wouldnt expect anyone just to "catch on" as
+quickly as others.  For this reason, I have decided NOT
+to implement this feature in the Y2K "hotfix."
+
+  Though, I would like to fore-warn you, that you should
+expect this system to be implemented in the next version
+of Renegade.  I will of course release the next version
+with a default ENGLISH.LNG file (mentioned below), though
+it will be just that "default."  It will make your current
+"strings" in the System Configuration (under String Editor)
+null/void.  So while becoming familiar with this new -way-,
+I would highly suggest that you copy down what your strings
+are now.  This goes two fold for those who use ANSI codes
+in there strings.
+
+  Now, if you are done reading my gibberish, I will be done
+typing and go on to the use of it all.
+
+
+[Usage]
+
+  The usage is quite simple.  Please find time to read the
+enclosed ENGLISH.LNG file which contains and exact (but
+shortned) example of how the language templates will look.
+Though for the sake of this short documentation, I will copy
+those things found in the ENGLISH.LNG file and comment
+some lines so that you may better understand, if not already.
+
+
+
+;
+;
+;
+; 001  [= Anonymous =]
+|09[= |10Anonymous |09]
+; 002  Logon Note #1
+|09Please enter your username and password below.
+
+
+
+
+  First, take notice of the semi-colons and their placement.
+A line that begins with a semi-colon is a REMARK.  It serves
+no purpose other than to allow the SysOp what he/she is
+editing.
+
+; 001  [= Anonymous =]
+
+  This line is a comment, again, due to the preceeding
+semi-colon.  This particular line is telling me:
+
+001                 is the line number
+[= Anonymous =]     is the description of the string itself
+
+
+Now below the line that reads:
+
+; 001  [= Anonymous =]
+
+
+
+We have a funny looking string.  If you notice this is the 
+ACTUAL string or what is displayed to the user.  Should look 
+familiar to you:
+
+|09[= |10Anonymous |09]
+
+
+
+See how this works?
+
+Extensive documentation will be provided, describing what line
+number affects what string, in the next release that implements
+this new system.  Dont be concerned about it right yet.
+
+
+As I mentioned, this is the short documentation.  Its only purpose
+is to enable the SysOp to become familiar with the soon to be
+implemented language system.
+
+Just to clear up something.  These files can be used for languages
+or they can be used for making a BBS the biggest ANSi warez d00dz
+BBS on the block.  Entirely up to the SysOp of course.
+
+
+
+I will close this doc for now.  If there are any questions or
+suggestions, please dont hesitate to email me.  Keep in mind
+that if I do NOT reply to your email within a certain time frame
+(for most that is a day) do NOT think I am ignoring you.  I keep
+EVERY single email I receive.  Those that I received and have
+not replied to get placed in a special folder so that I can
+keep track of them all.  Remember, if I take awhile to reply
+it is 99% likely I am working hard on the Renegade code.
+
+
+At any rate.  Take care, and have fun.....
+
+
+
+Jeff Herrings
+jeffherrings@home.com
+
+
+(c)2000, Renegade Bulletin Board System, All rights reserved

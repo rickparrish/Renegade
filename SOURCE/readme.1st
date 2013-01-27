@@ -1,0 +1,124 @@
+
+							   REGISTRATION
+	   _________________________________________________________________
+
+		  Renegade is *FREE*, or perhaps, "donationware".  However,  it is
+	   requested  that	if	you already  haven't  registered for  Renegade
+	   support	on	the  author's  board, you  do  so  with  the  enclosed
+	   REGISTER.DOC. The cost is only $25. Considering Renegade and all of
+       it's  related utilities  are FREE, $25 is nothing.
+
+		  In addition, your $25 will  buy you a  permanent account	on The
+       Digital Frontier,  the  author's  four  line   system with  all the
+       latest Renegade utilities available for download.
+
+		  If you do NOT register, then you have no right to complain about
+	   anything.  To paraphrase Martin Pollard:
+
+			  Why am I doing this?	It's quite simple: I'm tired of giving
+	   away something  for free, and getting nothing  but grief in return.
+	   The majority of the Renegade sysops have  no  respect for  software
+	   authors, conference	rules, or even common human  decency. They not
+	   only expect	everything	handed to  them for free, they	DEMAND it,
+	   and expect me to kiss their asses while doing it.
+
+		  So, in exchange for my sacrificing  a significant portion  of my
+	   life and mental health in  providing you with Renegade, I am asking
+	   that you help me pay for  my BBS.  If you  don't  feel Renegade  is
+	   worth $25, then	I  can't see why  you're running  it.  I certainly
+	   can't see any reason why I should assist you in running Renegade.
+
+
+		  To  register	 for  support,	you  need  simply	to	fill   out
+	   REGISTER.DOC included in the RGMAINT package, print it, and mail it
+	   to the author at the address indicated.
+
+
+								CLARIFICATION
+	   _________________________________________________________________
+
+		  Since there are many people out there that are hell-bent on
+	   spreading rumors and putting words in my mouth, I figure I'll
+	   clarify:
+
+            1.  RENEGADE is FREE.  You do NOT pay for it.
+
+			2.	If you LIKE Renegade, I ask that you register on my
+                system for support and files (permanently) for $25.
+
+			3.	This is all because I am tired of wasting my time doing
+				something completely for free, only to have to deal with
+				the complaining, demanding, and grief that I continously
+				get in netmail, email, and the various Renegade echoes
+                out there.  Now I am wasting a significant amount of MONEY
+                running a 4 line system for Renegade support.
+
+		  Furthermore:
+
+			1.	If you DON'T register, that's fine too.
+
+			2.	If you DON'T register, you have NO right to bitch and moan
+				when I don't go out of my way to personally help you.
+
+			3.	No, I will NOT go out of my way to completely stop helping
+				anybody who doesn't register for support.
+
+			4.	The reverse will simply be true; I won't waste my time and
+				add to my stress level by going out of my way for people
+				who don't register.
+
+			5.	For those of you that DON'T already realize it; I'm not
+				only a full time student, but I have a job too. I have
+				very little free time after work and school, and am
+                tired of donating it and my money to what at times seems
+                to be the most ungrateful faction of electronic society
+                ever.
+
+
+
+
+								 Conversions / Updates
+
+Notes on xx-xx-96 and later:
+
+    Read Whatdone #750 or your customized screens with MCI codes will
+    not look right.
+
+    You must add your own %LFs to the -L cmdkeys.
+
+Notes on 04-05-96 and later:
+
+    You must use UPD0405.EXE to upgrade the USERS.DAT file to 04-05-96
+    standards.
+
+Notes on 05-09-94 and later:
+
+     Your modem configs will all be toast when upgrading from 01-02-93
+     or earlier.  Redo them.
+
+Notes on 12-25-93 and later:
+
+	 Delete user.idx
+
+	 Set your Network QWK ACS in Offline config to % if you don't
+	 know that you need it otherwise.
+
+	 Check your credit system configuration and make sure people
+	 can logon your system (set them all to zero if you don't
+	 know you need them on).
+
+
+Notes on 4-01-93 and later;
+
+	 Renegade needs an 80186 or better processor. If you are using an
+	 8088 or 8086, you can replace your  processor with an NEC V20 or
+	 V30 processor respectively, for as little as $5.You will then be
+	 able to run most 286 applications.
+
+	 You can obtain a V20 or V30 from:
+
+		Memory Express	(800)877-8188
+		15140 Valley Blvd.
+		City of Industry, CA
+		91744
+

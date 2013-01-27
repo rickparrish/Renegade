@@ -1,0 +1,159 @@
+General MCI codes:
+
+Account balance                        %AB
+User's address                         %AD
+Aborting off                           %AO
+Baud rate                              %BD
+BBS Name                               %BN
+BBS Phone                              %BP
+Clear screen                           %CL
+Current Message Number                 %CM
+Current Conference Name                %CN
+Credits                                %CR
+Current Conference Tag                 %CT
+User defined answer #1                 %D1
+User defined answer #2                 %D2
+User defined answer #3                 %D3
+Date                                   %DA
+Debits                                 %DB
+Daily download limit                   %DD
+Delay                                  %DE
+Display file                           %DFfilename.ext%
+User's kbytes downloaded               %DK
+User's number of files downloaded      %DL
+User's Download Security Level         %DS
+Time of day (morning, night, etc)      %DT
+Date of subscription expiration        %ED
+Days left until expiration             %EX
+User's email sent                      %ES
+User's email waiting                   %EW
+Current File base number               %F#
+Current File base name                 %FB
+User's first date on                   %FD
+Free Kbytes in current file area       %FK
+User's first name                      %FN
+Mr. or Ms. by gender                   %GN
+Highest Message Number Available       %HM
+Illegal logons                         %IL
+Kbyte daily download limit             %KD
+U/D k ratio                            %KR
+User's last call date                  %LC
+Line Feed                              %LF
+User's last name                       %LN
+User's Location (City/State)           %LO
+Current Message base number            %M#
+Current Message base name              %MB
+Time left in minutes                   %ML
+Minutes online so far                  %MO
+Messages remaining left to read        %MR
+Node Number                            %ND
+U/D ratio                              %NR
+User's terminal emulation              %O1
+User's screen size                     %O2
+User's screen clearing toggle          %O3
+User's f/s editor toggle               %O4
+User's screen pausing toggle           %O5
+User's hotkey toggle                   %O6
+User's expert on/off                   %O7
+User's mail forwarding                 %O8
+User's color on/off                    %O9
+Pause                                  %PA
+Post/Call Ratio                        %PC
+User's phone number                    %PN
+Pausing off                            %PO
+User's number of posts                 %PS
+User's password                        %PW
+Batch Queue - Download #               %QD
+Batch Queue - Upload #                 %QU
+User's Real Name                       %RN
+SysOp defined category #1              %S1
+SysOp defined category #2              %S2
+SysOp defined category #3              %S3
+Total system callers                   %SC
+User's Security Level                  %SL
+SysOp Name                             %SN
+User's sex (Male/Female)               %SX
+User's time bank time added today      %TA
+User's time bank time                  %TB
+User's total calls                     %TC
+User's number of downloads today       %TD
+Time                                   %TI
+User's kbytes of downloads today       %TK
+User's Time left                       %TL
+User's time on today                   %TO
+User's total time on                   %TT
+Total users                            %TU
+User's age                             %UA
+User's birthdate                       %UB
+User's calls today                     %UC
+User's feedback sent                   %UF
+User's kbytes uploaded                 %UK
+User's number of files uploaded        %UL
+User's Handle                          %UN
+User number                            %UU
+Renegade version                       %VR
+User's Zip Code                        %ZP
+
+BBS list MCI codes:
+
+BBS Name                               ~BN
+Date Added                             ~DA
+Date Edited                            ~DE
+Description                            ~DS
+Phone Number                           ~PN
+SysOp Name                             ~SN
+Speed                                  ~SP
+Software                               ~SW
+User Added                             ~UN
+
+Last caller list MCI codes:
+
+Caller number                          ~CA
+Download Kbytes                        ~DK
+Downloads                              ~DL
+Email sent                             ~ES
+Feedback sent                          ~FS
+Location                               ~LC
+Logon time                             ~LO
+Logoff time                            ~LT
+Messages Posted                        ~MP
+Messages Read                          ~MR
+Node Number                            ~ND
+* if new user, else space              ~NU
+Speed                                  ~SP
+Time On (minutes)                      ~TO
+Upload Kbytes                          ~UK
+Uploads                                ~UL
+User Name                              ~UN
+
+User list MCI codes:
+
+Age                                    ~AG
+Downloads                              ~DL
+Download kbytes                        ~DK
+Location                               ~LC
+Last on date                           ~LO
+Message Posts                          ~MP
+Note                                   ~NO
+Real Name                              ~RN
+User Sex                               ~SX
+Upload kbytes                          ~UK
+Uploads                                ~UL
+User Name                              ~UN
+User Definable 1                       ~U1
+User Definable 2                       ~U2
+User Definable 3                       ~U3
+
+Node listing MCI codes:
+
+Activity                               ~AC
+Age                                    ~AG
+Node active (Y/N)                      ~AT
+Available (Y/N)                        ~AV
+Location                               ~LC
+Node number                            ~NN
+Name                                   ~UN
+Room number                            ~RM
+Sex                                    ~SX
+Time on                                ~TO
+
