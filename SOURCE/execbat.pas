@@ -48,7 +48,6 @@ var
   end;
 {$ENDIF}
 
-{$IFDEF MSDOS}
 procedure ExecWindow(var ok:boolean; const dir,batline:astr; oklevel:integer;
                     var rcode:byte);
 var oldwindowon:boolean;
@@ -77,6 +76,7 @@ var oldwindowon:boolean;
     WindLo := WindMin;
     WindHi := WindMax;
 
+{$IFDEF MSDOS}
     {Assure cursor is in window}
     inline
     (
@@ -119,19 +119,24 @@ var oldwindowon:boolean;
     TmpInt21 := SaveInt21;
     SaveInt21 := @NewInt21;
   {$ENDIF}
+{$ENDIF}
 
     {Exec the program}
     execbatch(ok,dir,batline,oklevel,rcode,TRUE);
 
+{$IFDEF MSDOS}
   {$IFDEF Ver70}
     SaveInt21 := TmpInt21;
   {$ENDIF}
+{$ENDIF}
 
     window(1,1,MaxDisplayCols,MaxDisplayRows);
     removewindow(wind);
 
+{$IFDEF MSDOS}
     {Restore interrupt}
     SetIntVec($21, CurInt21);
+{$ENDIF}
     general.curwindow:=oldcurwindow;
     general.windowon:=oldwindowon;
     LastScreenSwap := timer - 5;
@@ -139,14 +144,6 @@ var oldwindowon:boolean;
 
     gotoxy(sx,sy);
   end;
-{$ENDIF}
-{$IFDEF WIN32}
-procedure ExecWindow(var ok:boolean; const dir,batline:astr; oklevel:integer;
-                    var rcode:byte);
-begin
-  WriteLn('REETODO execbat ExecWindow'); Halt;
-end;
-{$ENDIF}
 
 procedure execbatch(var ok:boolean;     { result                     }
                     dir:astr;           { directory takes place in   }

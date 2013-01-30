@@ -67,24 +67,24 @@ type
   arcfilerec=record   {* structure of ARC archive file header *}
                filename:array[0..12] of char; {* filename *}
                c_size:longint;     {* compressed size *}
-               mod_date:integer;   {* last mod file date *}
-               mod_time:integer;   {* last mod file time *}
-               crc:integer;        {* CRC *}
+               mod_date:SmallInt;   {* last mod file date *}
+               mod_time:SmallInt;   {* last mod file time *}
+               crc:SmallInt;        {* CRC *}
                u_size:longint;     {* uncompressed size *}
              end;
 
 
   zipfilerec=record   {* structure of ZIP archive file header *}
-               version:integer;    {* version needed to extract *}
-               bit_flag:integer;   {* general purpose bit flag *}
-               method:integer;     {* compression method *}
-               mod_time:integer;   {* last mod file time *}
-               mod_date:integer;   {* last mod file date *}
+               version:SmallInt;    {* version needed to extract *}
+               bit_flag:SmallInt;   {* general purpose bit flag *}
+               method:SmallInt;     {* compression method *}
+               mod_time:SmallInt;   {* last mod file time *}
+               mod_date:SmallInt;   {* last mod file date *}
                crc:longint;        {* CRC-32 *}
                c_size:longint;     {* compressed size *}
                u_size:longint;     {* uncompressed size *}
-               f_length:integer;   {* filename length *}
-               e_length:integer;   {* extra field length *}
+               f_length:SmallInt;   {* filename length *}
+               e_length:SmallInt;   {* extra field length *}
              end;
 
   zoofilerec=record   {* structure of ZOO archive file header *}
@@ -93,9 +93,9 @@ type
                method:byte;     {* 0 = Stored, 1 = Crunched *}
                next:longint;    {* position of next directory entry *}
                offset:longint;  {* position of this file *}
-               mod_date:word;   {* modification date (DOS format) *}
-               mod_time:word;   {* modification time (DOS format) *}
-               crc:word;        {* CRC *}
+               mod_date:SmallWord;   {* modification date (DOS format) *}
+               mod_time:SmallWord;   {* modification time (DOS format) *}
+               crc:SmallWord;        {* CRC *}
                u_size:longint;  {* uncompressed size *}
                c_size:longint;  {* compressed size *}
                major_v:char;    {* major version number *}
@@ -103,11 +103,11 @@ type
                deleted:byte;    {* 0 = active, 1 = deleted *}
                struc:char;      {* file structure if any *}
                comment:longint; {* location of file comment (0 = none) *}
-               cmt_size:word;   {* length of comment (0 = none) *}
+               cmt_size:SmallWord;   {* length of comment (0 = none) *}
                fname:array[0..12] of char; {* filename *}
-               var_dirlen:integer; {* length of variable part of dir entry *}
+               var_dirlen:SmallInt; {* length of variable part of dir entry *}
                tz:char;         {* timezone where file was archived *}
-               dir_crc:word;    {* CRC of directory entry *}
+               dir_crc:SmallWord;    {* CRC of directory entry *}
              end;
 
   lzhfilerec=record   {* structure of LZH archive file header *}
@@ -116,11 +116,11 @@ type
                method:array[1..5] of char; {* compression type "-lh#-" *}
                c_size:longint;  {* compressed size *}
                u_size:longint;  {* uncompressed size *}
-               mod_time:integer;{* last mod file time *}
-               mod_date:integer;{* last mod file date *}
-               attrib:integer;  {* file attributes *}
+               mod_time:SmallInt;{* last mod file time *}
+               mod_date:SmallInt;{* last mod file date *}
+               attrib:SmallInt;  {* file attributes *}
                f_length:byte;   {* length of filename *}
-               crc:integer;     {* crc *}
+               crc:SmallInt;     {* crc *}
              end;
 
    arjfilerec = Record
@@ -133,20 +133,20 @@ type
       FileType     : Byte;
       GarbleMod    : Byte;
       Time,
-      Date         : Integer;
+      Date         : SmallInt;
       CompSize     : LongInt;
       OrigSize     : LongInt;
       OrigCRC      : Array[1..4] of Byte;
-      EntryName    : Word;
-      AccessMode   : Word;
-      HostData     : Word;
+      EntryName    : SmallWord;
+      AccessMode   : SmallWord;
+      HostData     : SmallWord;
     end;
 
   outrec=record   {* output information structure *}
            filename:astr;                    {* output filename *}
-           date:integer;                     {* output date *}
-           time:integer;                     {* output time *}
-           typ:integer;                      {* output storage type *}
+           date:SmallInt;                     {* output date *}
+           time:SmallInt;                     {* output time *}
+           typ:SmallInt;                      {* output storage type *}
            csize:longint;                    {* output compressed size *}
            usize:longint;                    {* output uncompressed size *}
          end;
@@ -311,8 +311,8 @@ end;
 
 procedure arj_proc(var arjfile:file);
 Type ARJsignature = Record
-      MagicNumber : Word;
-      BasicHdrSiz : Word;
+      MagicNumber : SmallWord;
+      BasicHdrSiz : SmallWord;
    end;
 
 var Hdr       : arjfilerec;

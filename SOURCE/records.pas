@@ -1,10 +1,14 @@
 const
-  Build = 'Y2Ka2';
-{$ifdef MSDOS}
+  Build = 'Y2Ka3';
+{$IFDEF MSDOS}
   OS = '';
-{$Else}
+{$ENDIF}
+{$IFDEF WIN32}
+  OS = '/32';
+{$ENDIF}
+{$IFDEF OS2}
   OS = '/2';
-{$endif}
+{$ENDIF}
   ver = Build + OS;
   MAXPROTOCOLS = 120;
   MAXEVENTS = 10;
@@ -18,6 +22,10 @@ const
   SLICETIMER=1; { Used for time slicing }
 
 TYPE
+{$IFDEF MSDOS}
+  SmallInt = System.Integer;
+  SmallWord = System.Word;
+{$ENDIF}
   astr = string[160];
   str40 = string[40];
   str8 = string[8];
@@ -95,14 +103,14 @@ TYPE
 
   NetAttribs = set of netattr;
 
-  secrange = array[0..255] of integer;        { Access tables }
+  secrange = array[0..255] of SmallInt;        { Access tables }
 
   useridxrec=                         { USERS.IDX : Sorted names listing }
   record
     Name:string[36];                  { the user's name }
     Number,                           { user number          }
     Left,                             { Left node }
-    Right:integer;                    { Right node }
+    Right:SmallInt;                    { Right node }
     RealName,                         { User's real name?    }
     Deleted:boolean;                  { deleted or not       }
   end;
@@ -142,7 +150,7 @@ TYPE
       passwordchanged:unixtime;         { date pw changed    }
 
       tltoday,                          { # min left today   }
-      forusr:integer;                   { forward mail to    }
+      forusr:SmallInt;                   { forward mail to    }
 
       uploads,                          { # of DLs           }
       downloads,                        { # of DLs           }
@@ -156,7 +164,7 @@ TYPE
       dltoday,                          { # files dl today   }
       timebankwith,                     { Time withdrawn     }
       lastmbase,                        { # last msg base    }
-      lastfbase:word;                   { # last file base   }
+      lastfbase:SmallWord;                   { # last file base   }
 
       waiting,                          { mail waiting       }
       linelen,                          { line length        }
@@ -199,26 +207,26 @@ TYPE
   fromtoinfo=                  { from/to information for mheaderrec }
   record
     anon:byte;
-    usernum:word;              { user number   }
+    usernum:SmallWord;              { user number   }
     as:string[36];             { posted as     }
     real:string[36];           { real name     }
     name:string[36];           { system name   }
     zone,
     net,
     node,
-    point:word;
+    point:SmallWord;
   end;
 
   mheaderrec=
   record
      from,mto:fromtoinfo;            { message from/to info    }
      pointer:longint;                { starting record of text }
-     textsize:word;                  { size of text            }
-     replyto:word;                   { ORIGINAL + REPLYTO = CURRENT }
+     textsize:SmallWord;                  { size of text            }
+     replyto:SmallWord;                   { ORIGINAL + REPLYTO = CURRENT }
      date:unixtime;                  { date/time packed string }
      dayofweek:byte;                 { message day of week     }
      status:set of msgstatusr;       { message status flags    }
-     replies:word;                   { times replied to        }
+     replies:SmallWord;                   { times replied to        }
      subject:string[40];             { subject of message      }
      origindate:string[19];          { date of echo/group msgs }
      fileattached:byte;              { 0=No, 1=Yes&Del, 2=Yes&Save }
@@ -230,7 +238,7 @@ TYPE
   historyrec=                     { HISTORY.DAT : Summary logs }
   record
     date:string[10];
-    userbaud:array[0..4] of word;
+    userbaud:array[0..4] of SmallWord;
     active,callers,newusers,posts,email,feedback,
     errors,uploads,downloads,uk,dk:longint;    {:word;}
                                                {uk,dk:longint;}
@@ -246,7 +254,7 @@ TYPE
     unarcline,                    { de-compression cmdline }
     testline,                     { integrity test cmdline }
     cmtline:string[25];           { comment cmdline        }
-    succlevel:integer;            { success errorLEVEL, -1=ignore results }
+    succlevel:SmallInt;            { success errorLEVEL, -1=ignore results }
   end;
 
   fstringrec=                     { STRING.DAT }
@@ -354,9 +362,9 @@ linerec=
     newdsl:byte;                      { new DSL }
     newar:set of acrq;                { new AR }
     newac:set of uflags;              { new AC }
-    newfp:integer;                    { nothing }
+    newfp:SmallInt;                    { nothing }
     newcredit:longint;                { new credit (added) }
-    expiration:word;                  { days until expiration }
+    expiration:SmallWord;                  { days until expiration }
     expireto:char;                    { validation level to expire to }
     softar:boolean;                   { TRUE=AR added to current, else replaces }
     softac:boolean;                   { TRUE=AC    "   "   "       "      "  }
@@ -386,7 +394,7 @@ generalrec=
     minbaudlowtime,                   { minimum baud calling hours begin.. }
     minbaudhitime,                    { ..and end }
     minbauddllowtime,                 { minimum baud downloading hours begin.. }
-    minbauddlhitime:integer;          { ..and end }
+    minbauddlhitime:SmallInt;          { ..and end }
 
     minimumbaud,                      { minimum baud rate to logon }
     minimumdlbaud:longint;            { minimum baud rate to download }
@@ -435,7 +443,7 @@ generalrec=
     sysopcolor,                       { SysOp color in chat mode }
     usercolor:byte;                   { user color in chat mode }
     minspaceforpost,                  { minimum drive space left to post }
-    minspaceforupload:integer;        { minimum drive space left to upload }
+    minspaceforupload:SmallInt;        { minimum drive space left to upload }
 
     backsysoplogs,                    { days to keep SYSOP##.LOG }
     eventwarningtime,                 { minutes before event to warn user }
@@ -458,11 +466,11 @@ generalrec=
     stripclog:boolean;                { strip colors from SysOp log? }
     newapp,                           { send new user application to # }
     timeoutbell,                      { minutes before timeout beep }
-    timeout:integer;                  { minutes before timeout }
+    timeout:SmallInt;                  { minutes before timeout }
     useems:boolean;                   { use EMS for overlay }
     usebios:boolean;                  { use BIOS for video output }
     useIEMSI:boolean;                 { use IEMSI }
-    alertbeep:integer;                { time between alert beeps }
+    alertbeep:SmallInt;                { time between alert beeps }
 
     filearcinfo:
         array[1..maxarcs] of filearcinforec;           { archive specs }
@@ -476,20 +484,20 @@ generalrec=
     tosysopdir:byte;                  { SysOp file base }
     validateallfiles:boolean;         { validate files automatically? }
     maxintemp,                        { max K allowed in TEMP }
-    minresume:integer;                { min K to allow resume-later }
+    minresume:SmallInt;                { min K to allow resume-later }
 
     filediz:boolean;                  { Search/Import file_id.diz }
 
     maxqwktotal,                      { max msgs in a packet, period }
-    maxqwkbase:word;                  { max msgs in a base }
+    maxqwkbase:SmallWord;                  { max msgs in a base }
 
     CreditMinute,                     { Credits per minute }
     CreditPost,                       { Credits per post }
-    CreditEmail:integer;              { Credits per Email sent }
+    CreditEmail:SmallInt;              { Credits per Email sent }
 
     sysoppword:boolean;               { check for sysop password? }
 
-    CreditFreeTime:integer;           { Amount of "Free" time given to user at logon }
+    CreditFreeTime:SmallInt;           { Amount of "Free" time given to user at logon }
 
     TrapTeleConf:boolean;             { Trap teleconferencing to ROOMx.TRP? }
 
@@ -510,7 +518,7 @@ generalrec=
     curwindow:byte;                   { type of SysOp window in use }
     istopwindow:boolean;              { is window at top of screen? }
     callernum:longint;                { system caller number }
-    numusers:integer;                 { number of users }
+    numusers:SmallInt;                 { number of users }
 
     multpath:string[40];              { MULT path }
 
@@ -520,12 +528,12 @@ generalrec=
 
     rewardsystem:boolean;             { use file rewarding system? }
 
-    passwordchange:word;              { change password at least every x days }
+    passwordchange:SmallWord;              { change password at least every x days }
 
     netmailpath:string[40];           { path to netmail }
     netmailACS:ACString;              { do they have access to netmail? }
 
-    rewardratio:integer;              { % of file points to reward back }
+    rewardratio:SmallInt;              { % of file points to reward back }
 
     birthdatecheck:byte;              { check user's birthdate every xx logons }
 
@@ -559,7 +567,7 @@ generalrec=
 
     dailylimits:boolean;              { Daily file limits on/off }
     multinode:boolean;                { enable multinode support }
-    daysonline:word;                  { days online }
+    daysonline:SmallWord;                  { days online }
     totalcalls:longint;               { incase different from callernum }
     totalusage:longint;               { total usage in minutes }
     totalposts:longint;               { total number of posts }
@@ -582,10 +590,10 @@ generalrec=
       zone,                           { 21st is for UUCP address }
       net,
       node,
-      point:word;
+      point:SmallWord;
     end;
     DefEchoPath:string[40];           { default echomail path }
-    CreditInternetMail:integer;       { cost for Internet mail }
+    CreditInternetMail:SmallInt;       { cost for Internet mail }
     crap5:array[1..372] of byte;
     validation:array['A'..'Z'] of
                validationrec;         { Validation records A - Z }
@@ -596,22 +604,22 @@ generalrec=
   smr=                            { SHORTMSG.DAT : One-line messages }
   record
     msg:astr;
-    destin:integer;
+    destin:SmallInt;
   end;
 
   votingr=                        { VOTING.DAT : Voting records }
   record
     description:string[65];       { voting question }
     ACS:ACString;                 { ACS required to vote on this }
-    choicenumber:word;            { number of choices }
-    numvoted:word;                { number of votes on it }
+    choicenumber:SmallWord;            { number of choices }
+    numvoted:SmallWord;                { number of votes on it }
     madeby:string[35];            { who created it }
     addchoicesACS:ACString;       { ACS required to add choices }
     choices:array[1..25] of
     record
       description:string[65];     { answer description }
       description2:string[65];    { answer description #2 }
-      numvoted:integer;           { # user's who picked this answer }
+      numvoted:SmallInt;           { # user's who picked this answer }
     end;
   end;
 
@@ -639,18 +647,18 @@ generalrec=
     postACS,                      { post access requirement }
     mciACS,                       { MCI usage requirement }
     sysopACS:ACString;            { Message base sysop requirement }
-    maxmsgs:word;                 { max message count }
+    maxmsgs:SmallWord;                 { max message count }
     anonymous:anontyp;            { anonymous type }
     password:string[20];          { base password }
     mbstat:set of mbflags;        { message base status vars }
-    mbtype:integer;               { base type (0=Local,1=Echo, 3=Qwk) }
+    mbtype:SmallInt;               { base type (0=Local,1=Echo, 3=Qwk) }
     origin:string[50];            { origin line }
     text_color,                   { color of standard text }
     quote_color,                  { color of quoted text }
     tear_color,                   { color of tear line }
     origin_color:byte;            { color of origin line }
     aka:byte;                     { alternate address }
-    QWKIndex:word;                { QWK indexing number }
+    QWKIndex:SmallWord;                { QWK indexing number }
     res:array[1..11] of byte;      { RESERVED }
   end;
 
@@ -670,11 +678,11 @@ generalrec=
     filename:string[12];          { filename + ".DIR" }
     dlpath,                       { download path     }
     ulpath:string[40];            { upload path       }
-    maxfiles:word;                { max files allowed }
+    maxfiles:SmallWord;                { max files allowed }
     password:string[20];          { password required }
     arctype,                      { wanted archive type (1..max,0=inactive) }
     cmttype:byte;                 { wanted comment type (1..3,0=inactive) }
-    res1:integer;                 { not used }
+    res1:SmallInt;                 { not used }
     fbstat:set of fbflags;        { file base status vars }
     ACS,                          { access requirements }
     ulACS,                        { upload requirements }
@@ -692,14 +700,14 @@ generalrec=
   record
     filename:string[12];          { Filename }
     description:string[60];       { File description }
-    credits:integer;              { File points }
-    downloaded:word;              { Number DLs }
+    credits:SmallInt;              { File points }
+    downloaded:SmallWord;              { Number DLs }
     sizemod:byte;                 { # chars over last 128 byte block }
-    blocks:word;                  { # 128 byte blks }
-    owner:word;                   { ULer of file }
+    blocks:SmallWord;                  { # 128 byte blks }
+    owner:SmallWord;                   { ULer of file }
     stowner:string[36];           { ULer's name }
     date:string[10];              { Date ULed }
-    daten:word;                   { Numeric date ULed }
+    daten:SmallWord;                   { Numeric date ULed }
     vpointer:longint;             { Pointer to verbose descr, -1 if none }
     filestat:set of filstat;      { File status }
     res:array[1..10] of byte;     { RESERVED }
@@ -727,7 +735,7 @@ generalrec=
     MsgRead,                       { Messages Read }
     MsgPost,                       { Messages Posted }
     EmailSent,                     { Email sent }
-    FeedbackSent:word;             { Feedback sent }
+    FeedbackSent:SmallWord;             { Feedback sent }
     UK,                            { Upload/Download kbytes during call }
     DK:longint;
     Reserved:array [1..17] of byte; { Reserved }
@@ -744,7 +752,7 @@ generalrec=
     monthly,                      { monthly event? }
     busyduring:boolean;           { busy phone DURING event? }
     exectime,                     { time of execution }
-    durationorlastday:integer;    { length of time event takes }
+    durationorlastday:SmallInt;    { length of time event takes }
     offhooktime,                  { off-hook time before; 0 if none }
     Enode,                        { node number to execute on (0 = all) }
     execdays:byte;                { bitwise execution days or day of month if monthly }
@@ -770,8 +778,8 @@ generalrec=
     ulcode,dlcode:array [1..6] of string[6];     { UL/DL codes }
     envcmd:string[60];                           { environment setup cmd }
     dlflist:string[25];                          { DL file lists }
-    maxchrs:integer;                             { max chrs in cmdline }
-    logpf,logps:integer;                         { pos in log file for data }
+    maxchrs:SmallInt;                             { max chrs in cmdline }
+    logpf,logps:SmallInt;                         { pos in log file for data }
     res:array[1..15] of byte;                    { RESERVED }
   end;
 
@@ -794,7 +802,7 @@ generalrec=
 
   noderec=                         { MULTNODE.DAT }
     record
-      User:word;                                 { What user number     }
+      User:SmallWord;                                 { What user number     }
       UserName:string[36];                       { User's name }
       CityState:string[30];                      { User's location }
       Sex:char;                                  { User's sex }
@@ -804,7 +812,7 @@ generalrec=
       Description:string[20];                    { Optional string }
       Status:set of nodeflags;
       Room:byte;                                 { What room are they in?      }
-      Channel:word;                              { What channel are they in?   }
+      Channel:SmallWord;                              { What channel are they in?   }
       Invited:array[0..31] of set of 0..7;       { Have they been invited ?    }
       Booted:array[0..31] of set of 0..7;        { Have they been kicked off ? }
       Forget:array[0..31] of set of 0..7;        { Who are they forgetting?    }
@@ -816,7 +824,7 @@ generalrec=
       Anonymous:boolean;           { Is Room anonymous ?         }
       Private:boolean;             { Is Room private ?           }
       Occupied:boolean;            { Is anyone in here?          }
-      Moderator:word;              { Who's the moderator?        }
+      Moderator:SmallWord;              { Who's the moderator?        }
     end;
 
   scanrec=                         { *.SCN files }

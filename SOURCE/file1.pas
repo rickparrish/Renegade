@@ -20,7 +20,7 @@ procedure dl(const fn:astr; addbatch:boolean);
 procedure dodescrs(var f:ulfrec; var v:verbrec; var tosysop:boolean);
 procedure writefv(rn:integer; f:ulfrec; v:verbrec);
 procedure doffstuff(var f:ulfrec; const fn:astr; var gotpts:integer);
-procedure arcstuff(var ok,convt:boolean; var blks:word; var convtime:longint;
+procedure arcstuff(var ok,convt:boolean; var blks:SmallWord; var convtime:longint;
                    itest:boolean; const fpath:astr; var fn,descr:astr);
 procedure idl(addbatch:boolean; s:astr);
 procedure iul;
@@ -484,7 +484,7 @@ begin
 end;
 
 procedure arcstuff(var ok,convt:boolean;		{ if ok - if converted }
-									 var blks:word; 					{ # blocks		 }
+									 var blks:SmallWord; 					{ # blocks		 }
 									 var convtime:longint;		{ convert time }
 									 itest:boolean; 					{ whether to test integrity }
                    const fpath:astr;        { filepath     }

@@ -7,7 +7,7 @@ PROGRAM Renemail;       {eatus echomailius}
 
 (* {A+,B-,D-,E-,F+,G+,N-,R-,S-,V-,I-} *)
 
-uses crt, dos, timefunc;
+uses crt, dos, timefunc {$IFDEF WIN32}, Strings{$ENDIF};
 
 {$I RECORDS.PAS}
 
@@ -17,16 +17,16 @@ type
     ToUserName   : string[35];
     Subject      : string[71];
     DateTime     : string[19];
-    TimesRead    : word;
-    DestNode     : word;
-    OrigNode     : word;
-    Cost         : word;
-    OrigNet      : word;
-    DestNet      : word;
+    TimesRead    : SmallWord;
+    DestNode     : SmallWord;
+    OrigNode     : SmallWord;
+    Cost         : SmallWord;
+    OrigNet      : SmallWord;
+    DestNet      : SmallWord;
     Filler       : array[1..8] of char;
-    Replyto      : word;
-    Attribute    : word;
-    NextReply    : word;
+    Replyto      : SmallWord;
+    Attribute    : SmallWord;
+    NextReply    : SmallWord;
   end;
 
 var
@@ -188,8 +188,20 @@ end;
 {$ENDIF}
 {$IFDEF WIN32}
 function StrPas(Str: String): String;
+var
+  i: Integer;
+  Result: String;
 begin
-  WriteLn('REETODO renemail StrPas'); Halt;
+  Result := Str;
+  for i := 1 to 255 do
+  begin
+    if (Str[i] = #0) then
+    begin
+      Result[0] := Chr(i - 1);
+      Break;
+    end;
+  end;
+  StrPas := Result;
 end;
 {$ENDIF}
 
@@ -878,7 +890,11 @@ end;
                 blockwrite (msgtfile, s [1], length (s) );
 {$IFDEF MSDOS}
                 s := #1'PID: Renemail ' + ver + #13;
-{$ELSE}
+{$ENDIF}
+{$IFDEF WIN32}
+                s := #1'PID: Renemail/32 ' + ver + #13;
+{$ENDIF}
+{$IFDEF OS2}
                 s := #1'PID: Renemail/2 ' + ver + #13;
 {$ENDIF}
                 blockwrite (msgtfile, s [1], length (s) );
@@ -932,10 +948,17 @@ begin
   textcolor (3);
 {$IFDEF MSDOS}
   writeln ('Renegade Echomail Interface DOS v.' + ver);
-{$ELSE}
+{$ENDIF}
+{$IFDEF WIN32}
+  writeln ('Renegade Echomail Interface Win32 v.' + ver);
+{$ENDIF}
+{$IFDEF OS2}
   writeln ('Renegade Echomail Interface nos/2 v.' + ver);
 {$ENDIF}
   writeln ('Copyright (C)MM by Jeff Herrings. All Rights Reserved.');
+{$IFDEF WIN32}
+  writeln ('Ported to Win32 by Rick Parrish');
+{$ENDIF}
   writeln;
   textcolor (10);
 

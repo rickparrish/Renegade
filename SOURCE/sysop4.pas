@@ -175,7 +175,7 @@ begin
   mark(topheap);
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO sysop4 tedit (mark)'); Halt;
+  // REETODO mark() not implemented in VP -- Win32 version will leak memory as a result
 {$ENDIF}
   used:=nil; top:=nil; bottom:=nil;
   allread:=TRUE;
@@ -306,7 +306,7 @@ begin
                 release(topheap);
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO sysop4 tedit (release 1)'); Halt;
+  // REETODO release() not implemented in VP -- Win32 version will leak memory as a result
 {$ENDIF}
               end;
           'D':begin
@@ -426,7 +426,7 @@ begin
   release(topheap);
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO sysop4 tedit (release 2)'); Halt;
+  // REETODO release() not implemented in VP -- Win32 version will leak memory as a result
 {$ENDIF}
   printingfile:=FALSE;
   Lasterror := IOResult;

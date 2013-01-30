@@ -126,7 +126,8 @@ var fi:file of byte;
 		fn,s:astr;
 		totb,totb1,totfils1:longint;
 		totpts,p,oldboard,gotpts,dbn,cps:integer;
-    blks,totfils:word;
+		blks:SmallWord;
+		totfils:word;
 		OldActivity, i:byte;
 		c:char;
 		autologoff,swap,ahangup,next,done,dok,wenttosysop,ok,convt,

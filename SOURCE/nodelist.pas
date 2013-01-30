@@ -11,8 +11,8 @@ interface
 
 uses crt, dos, overlay, common;
 
-function getnewaddr(s:astr; var zone,net,node,point:word):boolean;
-procedure GetNetAddress(var SysOpName:astr; var Zone,Net,Node,Point,Fee:word; GetFee:boolean);
+function getnewaddr(s:astr; var zone,net,node,point:SmallWord):boolean;
+procedure GetNetAddress(var SysOpName:astr; var Zone,Net,Node,Point:SmallWord; var Fee:word; GetFee:boolean);
 procedure ChangeFlags(var msgheader:mheaderrec);
 function netmail_attr(netattribute:netattribs):string;
 
@@ -26,10 +26,10 @@ type
 			Zone, 											{ Zone of board 							}
 			Net,												{ Net Address of board				}
 			Node, 											{ Node Address of board 			}
-			Point 		: Integer;				{ Either point number or 0		}
+			Point 		: SmallInt;				{ Either point number or 0		}
 			CallCost, 									{ Cost to sysop to send 			}
 			MsgFee, 										{ Cost to user to send				}
-			NodeFlags 	: Word; 				{ Node flags									}
+			NodeFlags 	: SmallWord; 				{ Node flags									}
 			ModemType,									{ Modem type									}
 			PassWord		: String [9];
 			Phone 			: String [39];
@@ -41,32 +41,32 @@ type
 	 end;
 
 	IndxRefBlk = record
-					IndxOfs 		: Word; 		{ Offset of string into block }
-					IndxLen 		: Word; 		{ Length of string						}
+					IndxOfs 		: SmallWord; 		{ Offset of string into block }
+					IndxLen 		: SmallWord; 		{ Length of string						}
 					IndxData		: LongInt;	{ Record number of string 		}
 					IndxPtr 		: LongInt;	{ Block number of lower index }
 			 end;  { IndxRef }
 	LeafRefBlk = record
-					KeyOfs			: Word; 		{ Offset of string into block }
-					KeyLen			: Word; 		{ Length of string						}
+					KeyOfs			: SmallWord; 		{ Offset of string into block }
+					KeyLen			: SmallWord; 		{ Length of string						}
 					KeyVal			: LongInt;	{ Pointer to data block 			}
 			 end; 	{ LeafRef }
 	CtlBlk = record
-			CtlBlkSize	: Word; 				{ blocksize of Index blocks 	}
+			CtlBlkSize	: SmallWord; 				{ blocksize of Index blocks 	}
 			CtlRoot,										{ Block number of Root				}
 			CtlHiBlk, 									{ Block number of last block	}
 			CtlLoLeaf 	: LongInt;			{ Block number of first leaf	}
 			CtlHiLeaf 	: LongInt;			{ Block number of last leaf 	}
 			CtlFree 		: LongInt;			{ Head of freelist						}
-			CtlLvls 		: Word; 				{ Number of index levels			}
-			CtlParity 	: Word; 				{ XOR of above fields 				}
+			CtlLvls 		: SmallWord; 				{ Number of index levels			}
+			CtlParity 	: SmallWord; 				{ XOR of above fields 				}
 	 end;
 	INodeBlk = record
 			IndxFirst 	: LongInt;			{ Pointer to next lower level }
 			IndxBLink 	: LongInt;			{ Pointer to previous link		}
 			IndxFLink 	: LongInt;			{ Pointer to next link				}
-			IndxCnt 		: Integer;			{ Count of Items in block 		}
-			IndxStr 		: Word; 				{ Offset in block of 1st str	}
+			IndxCnt 		: SmallInt;			{ Count of Items in block 		}
+			IndxStr 		: SmallWord; 				{ Offset in block of 1st str	}
 											{ If IndxFirst is NOT -1, this is INode:	}
 			IndxRef 		: array [0..49] of IndxRefBlk;
 	 end;
@@ -74,12 +74,12 @@ type
 			IndxFirst 	: LongInt;			{ Pointer to next lower level }
 			IndxBLink 	: LongInt;			{ Pointer to previous link		}
 			IndxFLink 	: LongInt;			{ Pointer to next link				}
-			IndxCnt 		: Integer;			{ Count of Items in block 		}
-			IndxStr 		: Word; 				{ Offset in block of 1st str	}
+			IndxCnt 		: SmallInt;			{ Count of Items in block 		}
+			IndxStr 		: SmallWord; 				{ Offset in block of 1st str	}
 			LeafRef 		: array [0..49] of LeafRefBlk;
 	end;
 
-function getnewaddr(s:astr; var zone,net,node,point:word):boolean;
+function getnewaddr(s:astr; var zone,net,node,point:SmallWord):boolean;
 begin
 	getnewaddr:=FALSE;
 	prt('Enter '+s+' in Z:N/N.P format: ');
@@ -133,10 +133,10 @@ end;
 function Compaddress (var ALine, Desire; L : Char) : Integer;
 type
 	NodeType = record
-		Zone	: Word;
-		Net 	: Word;
-		Node	: Word;
-		Point : Word;
+		Zone	: SmallWord;
+		Net 	: SmallWord;
+		Node	: SmallWord;
+		Point : SmallWord;
 	end;
 var
 	Key:NodeType absolute ALine;
@@ -161,7 +161,7 @@ begin
 	Compaddress := K;
 end;
 
-procedure GetNetAddress(var SysOpName:astr; var Zone,Net,Node,Point,Fee:word; GetFee:boolean);
+procedure GetNetAddress(var SysOpName:astr; var Zone,Net,Node,Point:SmallWord; var Fee:word; GetFee:boolean);
 var
 	DataFile,NDXFile:file;
 	City, BBSName,s:string[36];
@@ -195,10 +195,10 @@ var
 		type
 			NodeType = record 			{ A node address type }
 				Len 	: Byte;
-				Zone	: Word;
-				Net 	: Word;
-				Node	: Word;
-				Point : Word;
+				Zone	: SmallWord;
+				Net 	: SmallWord;
+				Node	: SmallWord;
+				Point : SmallWord;
 			end;
 	var
 		Address:NodeType;
@@ -277,10 +277,10 @@ type
 				Zone, 											{ Zone of board 							}
 				Net,												{ Net Address of board				}
 				Node, 											{ Node Address of board 			}
-				Point 		: Integer;				{ Either point number or 0		}
+				Point 		: SmallInt;				{ Either point number or 0		}
 				CallCost, 									{ Cost to sysop to send 			}
 				MsgFee, 										{ Cost to user to send				}
-				NodeFlags 	: Word; 				{ Node flags									}
+				NodeFlags 	: SmallWord; 				{ Node flags									}
 				ModemType,									{ Modem type									}
 				PhoneLen, 									{ Length of Phone Number			}
 				PassWordLen,								{ Length of Password					}

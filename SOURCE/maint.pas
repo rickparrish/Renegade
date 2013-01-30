@@ -379,7 +379,7 @@ begin
         release(ubatchv[i]); {* release dynamic memory *}
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO maint LogoffMaint'); Halt;
+  // REETODO release() not implemented in VP -- Win32 version will leak memory as a result
 {$ENDIF}
 
       if (hungup) then sl1('^7-= Hung Up =-');

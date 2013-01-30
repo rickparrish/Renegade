@@ -43,7 +43,7 @@ Uses
   Bulletin, User,     ShortMsg, CUser,    Doors,    Menus2,
   Menus3,   Menus4,   MyIO,     Logon,    Maint,    NewUsers, WfcMenu,
   Menus,    Timefunc, MsgPack,  Common,   Common1,  Common2,  offline,
-  Common3,  Spawno,   vote,     Script,   Event;
+  Common3,  {$IFDEF MSDOS}Spawno,{$ENDIF}   vote,     Script,   Event;
 
 {$O MsgPack   } {$O Common1   } {$O Common2   } {$O Common3   } {$O Boot      }
 {$O WfcMenu   } {$O Timefunc  } {$O Sysop1    } {$O Sysop2    } {$O Offline   }

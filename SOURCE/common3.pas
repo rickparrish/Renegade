@@ -25,7 +25,7 @@ procedure inputcaps(var s:string; ml:integer);
 implementation
 
 uses
-  common1, common2;
+  common1, common2 {$IFDEF WIN32}, RPScreen{$ENDIF};
 
 procedure inputdefault(var s:string; v:string; l:integer; flags:str8; lf:boolean);
 var c:char;
@@ -217,7 +217,13 @@ var os:string;
 {$IFDEF WIN32}
     procedure setcursor(InsertMode:boolean);
     begin
-	  WriteLn('REETODO common3 setcursor'); Halt;
+	  if (InsertMode) then
+      begin
+        RPInsertCursor;
+      end else
+      begin
+        RPBlockCursor;
+      end;
 	end;
 {$ENDIF}
 

@@ -73,8 +73,8 @@ type
     FileName:string[65];
     Storage: StorageType;
     Section,
-    Points:integer;
-    Uploader:word;
+    Points:SmallInt;
+    Uploader:SmallWord;
     Size,
     Time,
     OwnerCRC:longint;
@@ -82,7 +82,7 @@ type
 
   BatchULQueueRecord = record
     FileName:string[12];
-    Section:integer;
+    Section:SmallInt;
     Description:string[55];
     VPointer:byte;
   end;
@@ -547,7 +547,8 @@ function aacs(s:acstring):boolean;
 
 implementation
 
-uses common1, common2, common3, multnode, spawno, vote, Event {$IFDEF WIN32}, VPSysLow, VPUtils, Windows{$ENDIF};
+uses common1, common2, common3, multnode, {$IFDEF MSDOS}spawno,{$ENDIF} vote, 
+     Event {$IFDEF WIN32}, VPSysLow, VPUtils, Windows{$ENDIF};
 
 {$IFDEF WIN32}
 procedure Sound(hz: Word; duration: Word);
@@ -1232,6 +1233,8 @@ begin
 	cursoron(TRUE);
 
 	swapvectors;
+	
+{$IFDEF MSDOS}
 	if general.swapshell then
 		begin
       s := getenv('TEMP');
@@ -1240,6 +1243,7 @@ begin
       init_spawno(s,general.swapto,20,10);
       ResultCode := spawn(getenv('COMSPEC'),fname,0);
 		end;
+{$ENDIF}
 
 	if not general.swapshell or (ResultCode = -1) then
 		begin

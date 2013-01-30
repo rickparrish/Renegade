@@ -34,7 +34,7 @@ begin
     phours:=s;
 end;
 
-procedure gettimerange(const s:astr; var st1,st2:integer);
+procedure gettimerange(const s:astr; var st1,st2:SmallInt);
 var t1,t2,t1h,t1m,t2h,t2m:integer;
 begin
   if pynq(s) then begin

@@ -19,6 +19,11 @@ procedure showthismenu;
 
 implementation
 
+{$IFDEF WIN32}
+uses
+  Windows;
+{$ENDIF}
+
 procedure readin;
 var filv:text;
     LastTime:longint;
@@ -47,7 +52,7 @@ begin
 {$ENDIF}
 {$IFDEF WIN32}
         begin
-		  WriteLn('REETODO menus2 readin'); Halt;
+		  Sleep(1);
 		end;
 {$ENDIF}
       until (i = 0) or (LastTime < Timer);

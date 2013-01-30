@@ -30,6 +30,11 @@ procedure verbfileinfo(var pt:longint; editing:boolean);
 
 implementation
 
+{$IFDEF WIN32}
+uses
+  Windows;
+{$ENDIF}
+
 function align(const fn:astr):astr;
 var f,e:astr; c,c1:integer;
 begin
@@ -406,7 +411,7 @@ begin
 {$ENDIF}
 {$IFDEF WIN32}
         begin
-		  WriteLn('REETODO file0 countdown'); Halt;
+		  Sleep(1);
 		end;
 {$ENDIF}
     end;

@@ -79,7 +79,11 @@ procedure removewindow(var wind:windowrec);
 implementation
 
 {$IFDEF WIN32}
-uses VPSysLow, VPUtils;
+uses 
+  RPScreen, VPSysLow;
+  
+var
+  SavedScreen: TScreenBuf;
 {$ENDIF}
 
 {$IFDEF MSDOS}
@@ -103,10 +107,10 @@ procedure cursoron(b:boolean);
 begin
   if (b) then
   begin
-    ShowCursor;
+    RPShowCursor;
   end else
   begin
-    HideCursor;
+    RPHideCursor;
   end;
 end;
 {$ENDIF}
@@ -439,7 +443,7 @@ begin
     move(ScreenAddr[0],Wind[0],ScreenSize);
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO myio savescreen'); Halt;
+  RPSaveScreen(SavedScreen);
 {$ENDIF}
 end;
 
@@ -462,7 +466,7 @@ begin
     move(Wind[0],ScreenAddr[0],ScreenSize);
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO myio removewindow'); Halt;
+  RPRestoreScreen(SavedScreen);
 {$ENDIF}
 end;
 
