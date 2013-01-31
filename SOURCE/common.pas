@@ -1891,6 +1891,8 @@ begin
 {$IFDEF WIN32}
         begin
             if Not(DidInit) then Exit;
+            if (DidClose) then Exit;
+            if Not(EleNorm.Com_Carrier) then Exit;
             EleNorm.Com_SendString(s);
 	    end;
 {$ENDIF}
@@ -2062,6 +2064,8 @@ begin
 {$ENDIF}
 {$IFDEF WIN32}
             if Not(DidInit) then Exit;
+            if (DidClose) then Exit;
+            if Not(EleNorm.Com_Carrier) then Exit;
             empty := Not(EleNorm.Com_CharAvail);
 {$ENDIF}  
 		end;
@@ -3426,6 +3430,8 @@ begin
 {$ENDIF}
 {$IFDEF WIN32}
                 if Not(DidInit) then Exit;
+                if (DidClose) then Exit;
+                if Not(EleNorm.Com_Carrier) then Exit;
                 EleNorm.Com_PurgeInBuffer;
 {$ENDIF}
 			end
@@ -3452,6 +3458,8 @@ begin
 {$ENDIF}
 {$IFDEF WIN32}
             if Not(DidInit) then Exit;
+            if (DidClose) then Exit;
+            if Not(EleNorm.Com_Carrier) then Exit;
             EleNorm.Com_GetBufferStatus(InFree, OutFree, InUsed, OutUsed);
             com_tx_empty := (OutUsed = 0);
 {$ENDIF}
@@ -3477,6 +3485,8 @@ begin
 {$ENDIF}
 {$IFDEF WIN32}
             if Not(DidInit) then Exit;
+            if (DidClose) then Exit;
+            if Not(EleNorm.Com_Carrier) then Exit;
             EleNorm.Com_PurgeOutBuffer;
 {$ENDIF}
 		end;
@@ -3501,9 +3511,10 @@ end;
 {$IFDEF WIN32}
 function com_carrier:boolean;
 begin
-    com_carrier := true;
+    com_carrier := Not(DidClose);
     if (localioonly) then Exit;
     if Not(DidInit) then Exit;
+    if (DidClose) then Exit;
     com_carrier := EleNorm.Com_Carrier;
 end;
 {$ENDIF}
@@ -3532,6 +3543,8 @@ begin
 {$ENDIF}
 {$IFDEF WIN32}
             if Not(DidInit) then Exit;
+            if (DidClose) then Exit;
+            if Not(EleNorm.Com_Carrier) then Exit;
             if Not(EleNorm.Com_CharAvail) then Exit;
 
             // Get character from buffer
@@ -3569,6 +3582,8 @@ begin
 {$ENDIF}
 {$IFDEF WIN32}
             if Not(DidInit) then Exit;
+            if (DidClose) then Exit;
+            if Not(EleNorm.Com_Carrier) then Exit;
             com_rx_empty := Not(EleNorm.Com_CharAvail);
 {$ENDIF}
 		end;
@@ -3599,6 +3614,8 @@ begin
 {$IFDEF WIN32}
         begin
             if Not(DidInit) then Exit;
+            if (DidClose) then Exit;
+            if Not(EleNorm.Com_Carrier) then Exit;
             EleNorm.Com_SendChar(c);
         end;
 {$ENDIF}
@@ -3648,6 +3665,7 @@ begin
 {$ENDIF}
 {$IFDEF WIN32}
             if Not(DidInit) then Exit;
+            if (DidClose) then Exit;
             // REENOTE Telnet can't set speed
 {$ENDIF}
 		end;
@@ -3664,6 +3682,11 @@ begin
 {$ENDIF}
 {$IFDEF WIN32}
             if Not(DidInit) then Exit;
+            if Not(DidClose) then 
+            begin
+                EleNorm.Com_Close;
+                DidClose := true;
+            end;
             EleNorm.Com_ShutDown;
 {$ENDIF}
 		end;
@@ -3687,7 +3710,13 @@ begin
 {$ENDIF}
 {$IFDEF WIN32}
             if Not(DidInit) then Exit;
-            // REENOTE Telnet can't set DTR
+            if (DidClose) then Exit;
+            if Not(EleNorm.Com_Carrier) then Exit;
+            if Not(status) then
+            begin
+                EleNorm.Com_Close;
+                DidClose := true;
+            end;
 {$ENDIF}
 		end;
 end;

@@ -11,6 +11,7 @@ uses crt, dos, myio, common;
 
 {$IFDEF WIN32}
 var 
+  DidClose: Boolean = false;
   DidInit: Boolean = false;
 {$ENDIF}
 
@@ -575,9 +576,10 @@ begin
 {$ENDIF}
 {$IFDEF WIN32}
   if (DidInit) then Exit;
+  if (DidClose) then Exit;
   DidInit := true;
   EleNorm.Com_StartUp(2);
-  EleNorm.Com_SetDontClose(true);
+  EleNorm.Com_SetDontClose(false);
   EleNorm.Com_OpenQuick(answerbaud);
 {$ENDIF}
   com_set_speed(Liner.InitBaud);
