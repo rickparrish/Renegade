@@ -87,6 +87,7 @@ type TTelnetObj = Object(TCommObj)
                            Parity: Char; StopBits: Byte): Boolean; virtual;
         function  Com_OpenKeep(Comport: Byte): Boolean; virtual;
         function  Com_GetChar: Char; virtual;
+        function  Com_PeekChar: Char; virtual;
         function  Com_CharAvail: Boolean; virtual;
         function  Com_Carrier: Boolean; virtual;
         function  Com_SendChar(C: Char): Boolean; virtual;
@@ -98,6 +99,7 @@ type TTelnetObj = Object(TCommObj)
         procedure Com_Close; virtual;
         procedure Com_SendBlock(var Block; BlockLen: Longint; var Written: Longint); virtual;
         procedure Com_ReadBlock(var Block; BlockLen: Longint; var Reads: Longint); virtual;
+        procedure Com_PeekBlock(var Block; BlockLen: Longint; var Reads: Longint); virtual;
         procedure Com_GetBufferStatus(var InFree, OutFree, InUsed, OutUsed: Longint); virtual;
         procedure Com_SetDtr(State: Boolean); virtual;
         procedure Com_GetModemStatus(var LineStatus, ModemStatus: Byte); virtual;
@@ -659,6 +661,14 @@ end; { func. TTelnetObj.Com_GetChar }
 
 (*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-*)
 
+function TTelnetObj.Com_PeekChar: Char;
+var Reads: Longint;
+begin
+  Com_PeekBlock(Result, SizeOf(Result), Reads);
+end; { func. TTelnetObj.Com_GetChar }
+
+(*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-*)
+
 procedure TTelnetObj.Com_SendBlock(var Block; BlockLen: Longint; var Written: Longint);
 begin
   if OutBuffer^.BufRoom < BlockLen then
@@ -703,6 +713,31 @@ begin
 
   Reads := InBuffer^.Get(Block, BlockLen, true);
 end; { proc. TTelnetObj.Com_ReadBlock }
+
+(*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-*)
+
+procedure TTelnetObj.Com_PeekBlock(var Block; BlockLen: Longint; var Reads: Longint);
+begin
+  if InBuffer^.BufUsed < BlockLen then
+    begin
+      DoRxEvent^.SignalEvent;
+
+      repeat
+        {$IFDEF OS2}
+          DosSleep(1);
+        {$ENDIF}
+
+        {$IFDEF WIN32}
+          Sleep(1);
+        {$ENDIF}
+
+        if Com_CharAvail then
+          DoRxEvent^.SignalEvent;
+      until (InBuffer^.BufUsed >= BlockLen) OR (NOT Com_Carrier);
+    end; { if }
+
+  Reads := InBuffer^.Get(Block, BlockLen, false);
+end; { proc. TTelnetObj.Com_PeekBlock }
 
 (*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-*)
 

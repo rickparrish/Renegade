@@ -9,6 +9,11 @@ interface
 
 uses crt, dos, myio, common;
 
+{$IFDEF WIN32}
+var 
+  DidInit: Boolean = false;
+{$ENDIF}
+
 procedure initport;
 procedure skey1(var c:char);
 procedure savegeneral(x:boolean);
@@ -20,7 +25,7 @@ procedure ToggleWindow(ShowIt:boolean);
 
 implementation
 
-uses common1, common3, timefunc, syschat {$IFDEF WIN32}, VPSysLow, Windows{$ENDIF};
+uses common1, common3, timefunc, syschat {$IFDEF WIN32}, EleNorm, VPSysLow, Windows{$ENDIF};
 
 const
   SYSKEY_LENGTH=1269;
@@ -523,20 +528,14 @@ procedure initport;
     call interrupt14
   end;
 {$ENDIF}
-{$IFDEF WIN32}
-  function driverinstalled:word;
-  begin
-    driverinstalled := $1954; // Seems to be the magic number it wants
-  end;
-{$ENDIF}  
 
 begin
   FossilPort := liner.comport - 1;
   if localioonly then exit;
 
+{$IFDEF MSDOS}
   if (DigiBoard in liner.mflags) then
     begin
-{$IFDEF MSDOS}
       regs.ah := $1E;
       regs.dx := FossilPort;
       if (xonxoff in liner.mflags) then
@@ -548,10 +547,6 @@ begin
       regs.dx := FossilPort;
       regs.al := 0;
       intr($14, regs);
-{$ENDIF}
-{$IFDEF WIN32}
-  WriteLn('REETODO common2 initport (digiboard)'); Halt;
-{$ENDIF}
     end
   else
     if (driverinstalled <> $1954) then
@@ -561,7 +556,6 @@ begin
         halt;
       end
     else
-{$IFDEF MSDOS}
       asm
         xor al, al
         mov bl, liner.mflags
@@ -580,7 +574,11 @@ begin
       end;
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO common2 initport (fossil)'); Halt;
+  if (DidInit) then Exit;
+  DidInit := true;
+  EleNorm.Com_StartUp(2);
+  EleNorm.Com_SetDontClose(true);
+  EleNorm.Com_OpenQuick(liner.comport);
 {$ENDIF}
   com_set_speed(Liner.InitBaud);
 end;

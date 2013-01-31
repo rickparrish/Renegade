@@ -55,6 +55,7 @@ type TCommObj = Object
         function  Com_ReadyToSend(BlockLen: Longint): Boolean; virtual;
 
         function  Com_GetChar: Char; virtual;
+        function  Com_PeekChar: Char; virtual;
         function  Com_SendChar(C: Char): Boolean; virtual;
         function  Com_GetDriverInfo: String; virtual;
         function  Com_GetHandle: Longint; virtual;
@@ -123,6 +124,13 @@ end; { proc. TCommObj.Com_Close }
 function TCommObj.Com_GetChar: Char;
 begin
   Com_GetChar := #0;
+end; { func. TCommObj.Com_GetChar }
+
+(*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-*)
+
+function TCommObj.Com_PeekChar: Char;
+begin
+  Com_PeekChar := #0;
 end; { func. TCommObj.Com_GetChar }
 
 (*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-*)

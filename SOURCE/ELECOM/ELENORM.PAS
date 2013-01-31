@@ -52,6 +52,7 @@ function  Com_CharAvail: Boolean;
 function  Com_Carrier: Boolean;
 function  Com_ReadyToSend(BlockLen: Longint): Boolean;
 function  Com_GetChar: Char;
+function  Com_PeekChar: Char;
 function  Com_SendChar(C: Char): Boolean;
 function  Com_GetDriverInfo: String;
 function  Com_GetHandle: Longint;
@@ -240,6 +241,13 @@ end; { func. Com_ReadyToSend }
 function Com_GetChar: Char;
 begin
   Com_GetChar := ComObj^.Com_GetChar;
+end; { func. Com_GetChar }
+
+(*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-*)
+
+function Com_PeekChar: Char;
+begin
+  Com_PeekChar := ComObj^.Com_PeekChar;
 end; { func. Com_GetChar }
 
 (*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-+-*-*)

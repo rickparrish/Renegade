@@ -548,7 +548,7 @@ function aacs(s:acstring):boolean;
 implementation
 
 uses common1, common2, common3, multnode, {$IFDEF MSDOS}spawno,{$ENDIF} vote, 
-     Event {$IFDEF WIN32}, VPSysLow, VPUtils, Windows{$ENDIF};
+     Event {$IFDEF WIN32}, EleNorm, VPSysLow, VPUtils, Windows{$ENDIF};
 
 {$IFDEF WIN32}
 procedure Sound(hz: Word; duration: Word);
@@ -1889,9 +1889,10 @@ begin
 			until (s='');
 {$ENDIF}
 {$IFDEF WIN32}
-    begin
-      WriteLn('REETODO common SerialOut'); Halt;
-	end;
+        begin
+            if Not(DidInit) then Exit;
+            EleNorm.Com_SendString(s);
+	    end;
 {$ENDIF}
 end;
 
@@ -2060,7 +2061,8 @@ begin
 			Empty := not (regs.ah and 1 = 1);
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO common empty'); Halt;
+            if Not(DidInit) then Exit;
+            empty := Not(EleNorm.Com_CharAvail);
 {$ENDIF}  
 		end;
 end;
@@ -3423,7 +3425,8 @@ begin
 				intr($14, regs);
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO common com_flush_rx'); Halt;
+                if Not(DidInit) then Exit;
+                EleNorm.Com_PurgeInBuffer;
 {$ENDIF}
 			end
 		else
@@ -3434,6 +3437,9 @@ begin
 end;
 
 function com_tx_empty:boolean;
+{$IFDEF WIN32}
+var InFree, OutFree, InUsed, OutUsed: Longint;
+{$ENDIF}
 begin
 	Com_TX_Empty := TRUE;
 	if not LocalIOOnly then
@@ -3445,7 +3451,9 @@ begin
 			Com_TX_Empty := (regs.ah and 64 = 64);
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO common com_tx_empty'); Halt;
+            if Not(DidInit) then Exit;
+            EleNorm.Com_GetBufferStatus(InFree, OutFree, InUsed, OutUsed);
+            com_tx_empty := (OutUsed = 0);
 {$ENDIF}
 		end;
 end;
@@ -3468,7 +3476,8 @@ begin
 			intr($14, regs);
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO common com_purge_tx'); Halt;
+            if Not(DidInit) then Exit;
+            EleNorm.Com_PurgeOutBuffer;
 {$ENDIF}
 		end;
 end;
@@ -3492,11 +3501,17 @@ end;
 {$IFDEF WIN32}
 function com_carrier:boolean;
 begin
-  WriteLn('REETODO common com_carrier'); Halt;
+    com_carrier := true;
+    if (localioonly) then Exit;
+    if Not(DidInit) then Exit;
+    com_carrier := EleNorm.Com_Carrier;
 end;
 {$ENDIF}
 
 function com_rx:char;
+{$IFDEF WIN32}
+var ch: char;
+{$ENDIF}
 begin
 	Com_RX := #0;
 	if not LocalIOOnly then
@@ -3516,7 +3531,26 @@ begin
 				end;
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO common com_rx'); Halt;
+            if Not(DidInit) then Exit;
+            if Not(EleNorm.Com_CharAvail) then Exit;
+
+            // Get character from buffer
+            ch := EleNorm.Com_GetChar;
+            if (ch = #10) then
+            begin
+                // Translate bare LF to CR
+                com_rx := #13;
+            end else
+            begin
+                com_rx := ch;
+            end;
+
+            // If this char is CR, check if the next char is LF (so we can discard it)
+            if (ch = #13) and (EleNorm.Com_CharAvail) then
+            begin
+                ch := EleNorm.Com_PeekChar;
+                if (ch = #10) then EleNorm.Com_GetChar; // Discard that LF
+            end;
 {$ENDIF}
 		end;
 end;
@@ -3534,7 +3568,8 @@ begin
 			Com_RX_Empty := not (regs.ah and 1 = 1);
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO common com_rx_empty'); Halt;
+            if Not(DidInit) then Exit;
+            com_rx_empty := Not(EleNorm.Com_CharAvail);
 {$ENDIF}
 		end;
 end;
@@ -3562,9 +3597,10 @@ begin
 				end;
 {$ENDIF}
 {$IFDEF WIN32}
-    begin
-      WriteLn('REETODO common com_tx'); Halt;
-	end;
+        begin
+            if Not(DidInit) then Exit;
+            EleNorm.Com_SendChar(c);
+        end;
 {$ENDIF}
 end;
 
@@ -3611,7 +3647,8 @@ begin
 			intr($14, regs);
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO common com_set_speed'); Halt;
+            if Not(DidInit) then Exit;
+            // REENOTE Telnet can't set speed
 {$ENDIF}
 		end;
 end;
@@ -3626,7 +3663,8 @@ begin
 			intr($14, regs);
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO common com_deinstall'); Halt;
+            if Not(DidInit) then Exit;
+            EleNorm.Com_ShutDown;
 {$ENDIF}
 		end;
 end;
@@ -3648,7 +3686,8 @@ begin
 			intr($14, regs);
 {$ENDIF}
 {$IFDEF WIN32}
-  WriteLn('REETODO common dtr'); Halt;
+            if Not(DidInit) then Exit;
+            // REENOTE Telnet can't set DTR
 {$ENDIF}
 		end;
 end;
