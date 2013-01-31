@@ -356,12 +356,12 @@ end;
             begin
               read (hiwaterf, hiwater);
               i := ioresult;
-              findfirst (dir + cstr (hiwater) + '.MSG', 0, dirinfo);
+              findfirst (dir + cstr (hiwater) + '.MSG', AnyFile, dirinfo);
               if doserror <> 0 then hiwater := 1;
             end;
             close (hiwaterf);
         end;
-      findfirst (dir + '*.MSG', 0, dirinfo);
+      findfirst (dir + '*.MSG', AnyFile, dirinfo);
       highest := 1;
       lowest := 32767;
       while doserror = 0 do
@@ -446,7 +446,7 @@ end;
       begin
 {$ENDIF}
         purged := TRUE;
-        findfirst (dir + '*.MSG', 0, dirinfo);
+        findfirst (dir + '*.MSG', AnyFile, dirinfo);
         if doserror <> 0 then
           purged := FALSE
         else

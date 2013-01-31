@@ -3247,7 +3247,7 @@ end;
 
 function maxchatrec:longint;
 begin
-	findfirst(general.multpath + 'message.'+cstr(node),0,junkinfo);
+	findfirst(general.multpath + 'message.'+cstr(node),AnyFile,junkinfo);
 	if (doserror = 0) then
 		maxchatrec := junkinfo.size
 	else
@@ -3256,7 +3256,7 @@ end;
 
 function maxnodes:integer;
 begin
-	findfirst(general.multpath+'multnode.dat',0,junkinfo);
+	findfirst(general.multpath+'multnode.dat',AnyFile,junkinfo);
 	if doserror=0 then
 		maxnodes:=junkinfo.size div sizeof(noderec)
 	else
@@ -3343,7 +3343,7 @@ end;
 
 function maxusers:integer;
 begin
-	findfirst(general.datapath+'users.dat',0,junkinfo);
+	findfirst(general.datapath+'users.dat',AnyFile,junkinfo);
 	if (doserror = 0) then
 		maxusers := junkinfo.size div sizeof(userrec)
 	else
@@ -3380,7 +3380,7 @@ end;
 
 function maxsf:integer;
 begin
-	findfirst(general.datapath+'users.idx',0,junkinfo);
+	findfirst(general.datapath+'users.idx',AnyFile,junkinfo);
 	if (doserror = 0) then
 		maxsf := junkinfo.size div sizeof(useridxrec)
 	else
@@ -3391,7 +3391,7 @@ end;
 
 function himsg:integer;
 begin
-	findfirst(general.msgpath+memboard.filename+'.HDR',0,junkinfo);
+	findfirst(general.msgpath+memboard.filename+'.HDR',AnyFile,junkinfo);
 	if (doserror = 0) then
 		himsg := junkinfo.size div sizeof(mheaderrec)
 	else

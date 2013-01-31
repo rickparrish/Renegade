@@ -20,7 +20,6 @@ Ported to Win32 by Rick Parrish<br />
 
 TODO list:<br />
 <ul>
-  <li>Implement any REETODOs that appear in compiled executables</li>
   <li>Investigate FILEMODE usage to see if FILEMODEREADWRITE, TEXTMODEREAD or TEXTMODEREADWRITE should be used</li>
   <li>Find/correct any usage of FOR loop variables after the loop (since they are 1 greater in VP than in BP</li>
 </ul>
@@ -33,4 +32,6 @@ Completed list<br />
   <li>INTEGER in RECORD to SMALLINT</li>
   <li>TYPEs of OF WORD to OF SMALLWORD (just in case they're used in a RECORD)</li>
   <li>TYPEs of OF INTEGER to OF SMALLINT (just in case they're used in a RECORD)</li>
+  <li>Implement any REETODOs that appear in compiled executables</li>
+  <li>Anything passing 0 for the Attr parameter to FindFirst should pass AnyFile instead (VP returns no files when 0 is passed for Attr)</li>
 </ul>
