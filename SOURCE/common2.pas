@@ -578,7 +578,7 @@ begin
   DidInit := true;
   EleNorm.Com_StartUp(2);
   EleNorm.Com_SetDontClose(true);
-  EleNorm.Com_OpenQuick(liner.comport);
+  EleNorm.Com_OpenQuick(answerbaud);
 {$ENDIF}
   com_set_speed(Liner.InitBaud);
 end;
