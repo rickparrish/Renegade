@@ -11,17 +11,17 @@ Step 0) Assumptions:
 
 Step 1) Create directories to hold everything:
 
-	Z:\Usurper
-	Z:\Programming\Usurper
-	Z:\Programming\Usurper\EXE\BP
-	Z:\Programming\Usurper\EXE\VP
+	Z:\RENEGADE
+	Z:\Programming\RENEGADE
+	Z:\Programming\RENEGADE\EXE\BP
+	Z:\Programming\RENEGADE\EXE\VP
 
 	If you don't have a Z: drive, you can use SUBST or map a network drive to fake one
 	You can also put the files in an alternate location if you want, you'll just have to update the BUILD*.CMD scripts
 
 Step 2) Get the source
 
-	Check out the GIT contents into Z:\Programming\Usurper
+	Check out the GIT contents into Z:\Programming\RENEGADE
 
 Step 3) Edit Z:\vp21\source\rtl\vpsysw32.pas
 
@@ -50,6 +50,6 @@ Step 3) Edit Z:\vp21\source\rtl\vpsysw32.pas
     
 Step 4) Build new EXEs
 
-	Run BUILDBP.CMD to build the DOS EXEs and have them copied to Z:\Usurper
+	Run BUILDBP.CMD to build the DOS EXEs and have them copied to Z:\RENEGADE
 
-	Run BUILDVP.CMD to build the WIN32 EXEs and have them copied to Z:\Usurper
+	Run BUILDVP.CMD to build the WIN32 EXEs and have them copied to Z:\RENEGADE
